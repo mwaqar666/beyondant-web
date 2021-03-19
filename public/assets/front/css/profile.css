@@ -1,0 +1,481 @@
+/*Profile Heaer CSS Start*/
+.headerProfile{
+    background: #fff;
+    padding: 10px 0
+}
+/*Profile Heaer CSS End*/
+
+/*Profile Main Banner CSS Start*/
+.beyondantProfileMain{
+    background: url(../images/profile-mainbanner-bg.png) repeat-x top center #be0103;
+    padding: 0;
+    cursor: pointer;
+}
+.beyondantProfileMain img{
+    width: 100%
+}
+.lW{width:150px;}
+.BTNcontainer .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  width: auto;
+  opacity: 0;
+  transition: .3s ease;
+  background-color:rgba(190, 1, 3, 0.5);
+
+}
+.file-uploadOne {
+    display: none;
+}
+.BTNcontainer:hover .overlay {
+  opacity: 1;
+}
+.profile-img .overlay span.text {
+  font-size:15px;
+  color:#fff;
+  display:block;
+  text-transform:uppercase;
+}
+.BTNcontainer .icon {
+  color:#fff !important;
+  font-size:18px;
+  position: absolute;
+  top: 35px;
+    left: 160px;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+.beyondantProfileInfo{
+    background: #fff;
+    padding:0;
+    overflow: visible;
+}
+.beyondantProfileInfo .profile-img {
+    height: 257px;
+    width: 258px;
+    border-radius: 100px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    top: -140px;
+    margin-bottom: -100px;
+    background: url(../images/profile-img-bg.png) no-repeat;
+    cursor: pointer;
+}
+
+
+.profile-img .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .3s ease;
+  background-color:rgba(190, 1, 3, 0.5);
+  border-radius: 100%;
+
+}
+
+.profile-img .overlay span.text {
+  font-size:15px;
+  color:#fff;
+  display:block;
+  text-transform:uppercase;
+}
+.file-upload {
+    display: none;
+}
+
+.profile-img:hover .overlay {
+  opacity: 1;
+}
+
+.profile-img .icon {
+  color:#fff !important;
+  font-size:50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+.fa-image:before {
+    content: "\f03e";
+}
+.fa-edit:before {
+    content: "\f044";
+}
+.BTNcontainer{
+    width: 100%;
+    position: relative;
+}
+.edit-profile-btn {
+    background: #be0103;
+    border-color: #be0103;
+    color: #fff;
+    padding: 7px 25px;
+    border-radius: 100px;
+    width: auto;
+    font-size:15px;
+    position:absolute;
+    bottom: 15px;
+    right:30px;
+    z-index:9;
+}
+.edit-profile-btn:hover, .edit-profile-btn:focus, .beyondantProfileInfo .edit-profile-btn:active {
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    background-color: #970507;
+    border: 2px solid #970507;
+    color: #fff !important;
+}
+.beyondantProfileInfo .profile-img img {
+    height: 217px;
+    width: 218px;
+    margin: 20px;
+    border-radius: 100%;
+}
+.beyondantProfileInfo h2 {
+    line-height: 1.2;
+    font-size: 30px;
+    color: #252525;
+    margin:55px 0 15px
+}
+.beyondantProfileInfo p {
+    font-size: 20px;
+    color: #be0103;
+    margin:0;
+    font-weight: 600
+}
+.beyondantProfileInfo p span {
+        font-size: 29.5px;
+    color: #111111;
+    display: block;
+    font-weight: 600;
+    line-height: normal;
+}
+.beyondantProfileInfo .btn-default.saveContact {
+    background: #be0103;
+    border-color: #be0103;
+    color: #fff;
+    padding: 7px 25px;
+    border-radius: 100px;
+    margin:55px 0 0;
+    width: 100%;
+    font-size:15px;
+}
+.beyondantProfileInfo .btn-default.saveContact:hover, .beyondantProfileInfo .btn-default.saveContact:focus, .beyondantProfileInfo .btn-default.saveContact:active {
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    background-color: #970507;
+    border: 2px solid #970507;
+    color: #fff !important;
+}
+.beyondantProfileInfo .btn-default.saveContact:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.fa-download:before {
+    content: "\f019";
+}
+@media only screen and (max-width: 991px) {
+    .beyondantProfileInfo .profile-img {
+        height: 120px;
+        width: 120px;
+        border-radius: 100px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        top: -70px;
+        margin-bottom: -100px;
+        background: url(../images/profile-img-bg.png) no-repeat;
+        background-size: cover
+    }
+    .beyondantProfileInfo .profile-img img {
+        height: 98px;
+        width: 98px;
+        margin: 11px;
+        border-radius: 100%;
+    }
+}
+@media only screen and (max-width:767px) {
+    .textCenter_mob{
+        text-align: center
+    }
+    .beyondantProfileInfo .btn-default.saveContact {
+        margin: 17px 0 25px;
+    }
+    .beyondantProfileMain img{
+        min-height: 177px;
+    }
+}
+/*Profile Main Banner CSS End*/
+
+/*Profile Contaent CSS Start*/
+.profileContent_area{
+    margin: 45px 0;
+}
+.profileContent_area .pCd{
+    padding: 25px;
+    background: #fff;
+    border-radius:20px;
+    -webkit-box-shadow: 0px 0px 12px -2px #ccc;
+    box-shadow: 0px 0px 12px -2px #ccc;
+    border-bottom: 10px solid #d0d0d0
+}
+.profileContent_area span.title{
+    font-size: 13px;
+    color: #be0103;
+    font-weight: 600;
+    display: block;
+    margin: 0 0 6px
+}
+.profileContent_area span.Subtitle{
+    font-size: 13px;
+    color: #111111;
+    display: block;
+}
+.profileContent_area p{
+    font-size: 13px;
+    color: #959595;
+    margin: 10px 0;
+    line-height: 20px;
+}
+.profileContent_area .pCd_right{
+    padding: 25px;
+    background: #fff;
+    border-radius:20px;
+    -webkit-box-shadow: 0px 0px 12px -2px #ccc;
+    box-shadow: 0px 0px 12px -2px #ccc;
+    border-bottom: 10px solid #d0d0d0
+}
+.profileContent_area img.coliCon{
+    width: 80%
+}
+.profileContent_area .pCd_col{
+    padding: 25px 0;
+    background: #fff;
+    border-bottom: 1px solid #d8d8d8
+}
+.col-R-paddN{
+    padding-right:0;
+}
+.col-L-paddN{
+    padding-left:0;
+}
+.profileContent_area .pCd_col.noBordercol{
+    border-bottom: 0px solid #d8d8d8
+}
+.profileContent_area .pCd_col span.title{
+    font-size: 13px;
+    color: #be0103;
+    font-weight: 600;
+    display: block;
+    margin: 0 0 6px
+}
+.profileContent_area .pCd_col span.Subtitle{
+    font-size: 13px;
+    color: #111111;
+    display: block;
+}
+/*Profile Contaent CSS End*/
+
+
+/*Profile Footer CSS Start*/
+footer.profileFooter{
+    background: #191919;
+    padding: 30px 0;
+    border-bottom: 22px solid #be0103;
+    color: #fff;
+    font-size: 13px
+}
+footer.profileFooter img{
+    width: 100px
+}
+/*Profile Footer CSS Start*/
+
+
+.profileWrapper_Mob{
+    display: none;
+}
+/*mnb css start*/
+.cover-image {
+    width: 1250px;
+    height: 416px;
+    object-fit: cover;
+}
+
+.user-logout {
+    background: #be0103;
+    color: #fff;
+    padding: 7px 25px;
+    border-radius: 100px;
+    font-size: 15px;
+    margin-top:10px;
+}
+.user-logout:hover {
+    background: #970507;
+    color: #fff;
+}
+
+/*mnb css end*/
+
+@media only screen and (max-width:767px) {
+    .profileWrapper{
+        display: none;
+    }
+    .file-uploadTwo {
+        display: none;
+    }
+    .file-uploadThree {
+        display: none;
+    }
+    .beyondantProfileInfo .profile-img {
+
+    overflow: inherit;
+
+}
+    .profile-img .icon {
+            color: #fff !important;
+    font-size: 20px;
+    position: absolute;
+    bottom: 0;
+    transform: translate(20%, 20%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    background: #be0103;
+    padding: 0;
+    line-height: 50px;
+    border-radius: 100%;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    z-index: 5;
+    }
+    .BTNcontainer .icon {
+        color: #fff !important;
+        font-size: 28px;
+        position: absolute;
+        top: 55px;
+        left: 61px;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        background: #be0103;
+        padding: 20px;
+        border-radius: 100%;
+            line-height: 28px;
+    }
+    .edit-profile-btn {
+        background: #fff;
+        border-color: #fff;
+        color: #be0103;
+        padding: 20px;
+        border-radius: 100px;
+        width: 67px;
+        font-size: 23px;
+        position: absolute;
+        z-index: 9;
+        top: 105px;
+        left: 31px;
+        height: 67px;
+    }
+
+    .profileWrapper_Mob{
+        display: block;
+    }
+    .headerProfile_mob {
+        background: #fff;
+        padding: 30px 0;
+    }
+    .headerProfile_mob .mainTitle {
+        font-size: 18px;
+        color: #252525;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .ProfileName_mob{
+        padding:0 25px 25px;
+        background: #cd1b17;
+    }
+    .ProfileName_mob .profile-img {
+        height: 120px;
+        width: 120px;
+        border-radius: 100px;
+        margin: -50px auto 10px;
+        overflow: hidden;
+        background: url(../images/profile-img-bg.png) no-repeat;
+        background-size: cover
+    }
+    .ProfileName_mob .profile-img img {
+        height: 96px;
+        width: 96px;
+        margin: 12px;
+        border-radius: 100%;
+    }
+
+    .ProfileName_mob .name{
+        font-size: 18px;
+        color: #fff;
+        font-weight: 600;
+        line-height:30px;
+    }
+    .ProfileName_mob .name span{
+        font-size: 15px;
+        font-weight: 500;
+        display: block;
+    }
+    .ProfileContactInfo_mob{
+        padding: 0 25px
+    }
+    .ProfileContactInfo_mob .contactInfo_child{
+        padding: 15px 0;
+        border-bottom: 1px solid #e1e1e1;
+        min-height: 74px;
+        align-items: center;
+        font-size: 14px;
+        color: #555555;
+        line-height: normal;
+    }
+    .profileFooter_mob{
+        background: #cd1b17;
+        padding: 25px 0;
+        text-align: center;
+        font-size: 13px;
+        color: #fff;
+        position: relative;
+    }
+    .profileFooter_mob .btn-default.saveContact {
+        background: #00aef0;
+        border-color: #00aef0;
+        color: #fff;
+        padding: 7px 25px;
+        border-radius: 10px;
+        margin:0;
+        width: auto;
+        font-size: 12px;
+        position: absolute;
+        right: 10px;
+        top: -20px
+    }
+    .profileFooter_mob .btn-default.saveContact:hover,
+    .profileFooter_mob .btn-default.saveContact:focus,
+    .profileFooter_mob .btn-default.saveContact:active {
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        background-color: #047099;
+        border: 2px solid #047099;
+        color: #fff !important;
+    }
+
+}
