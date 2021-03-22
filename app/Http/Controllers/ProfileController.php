@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EmployeeForm;
+use App\Http\Requests\PasswordValidationForm;
 use App\Mail\AccountMail;
 use App\Mail\CreateEmployeeMail;
 use App\Mail\IntroductionEmail;
@@ -12,240 +12,250 @@ use App\Mail\QrCode;
 use App\models\device;
 use App\models\downloads;
 use App\models\meeting;
-use App\models\reseller;
 use App\Notifications\AccountNotification;
 use App\User;
+use App\VcardExport;
+use DateTime;
+use DateTimeZone;
+use DB;
+use File;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use App\Http\Requests\PasswordValidationForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Support\ViewErrorBag;
-use Psy\Util\Str;
-use File;
 
 class ProfileController extends Controller
 {
-    public function index($id) {
-        $content['record'] = User::where([['role_id','=',2],['id','=',$id]])->orWhere([['role_id','=',5],['id','=',$id]])->orWhere([['role_id','=',7],['id','=',$id]])->firstOrFail();
+    public function index($id)
+    {
+        $content['record'] = User::where([['role_id', '=', 2], ['id', '=', $id]])->orWhere([['role_id', '=', 5], ['id', '=', $id]])->orWhere([['role_id', '=', 7], ['id', '=', $id]])->firstOrFail();
         if (!empty($content['record'])) {
             if (Auth::check()) {
-                if (!File::exists('assets/uploads/customer/'.$id.'.png')) {
-                    $file = public_path('assets/uploads/customer/'.$id.'.png');
-                    
-                    \QRCode::text(route('pro',$id))->setOutfile($file)->png();
+                if (!File::exists('assets/uploads/customer/' . $id . '.png')) {
+                    $file = public_path('assets/uploads/customer/' . $id . '.png');
+
+                    \QRCode::text(route('pro', $id))->setOutfile($file)->png();
                     //dd($content['record']);
                 }
 
-                if(auth()->user()->id!=$id){
+                if (auth()->user()->id != $id) {
 
-                    return redirect()->route('pro',auth()->user()->id);
+                    return redirect()->route('pro', auth()->user()->id);
                 }
 
-                if(in_array((int)$content['record']->role_id, array(7,5))) {
+                if (in_array((int)$content['record']->role_id, array(7, 5))) {
                     if ((int)$content['record']->google_review_check == 1) {
                         return redirect()->away($content['record']->google_review);
                     }
                 }
-                
-                if(auth()->user()->parent_id==0){
-                    $content["companyInfo"]=User::find(User::find($id)->parent_id);
-                    return view('front.profile',$content);
-                }
-                else{
-                    $content["companyInfo"]=User::find(User::find($id)->parent_id);
-                    return view('front.profile',$content);
+
+                if (auth()->user()->parent_id == 0) {
+                    $content["companyInfo"] = User::find(User::find($id)->parent_id);
+                    return view('front.profile', $content);
+                } else {
+                    $content["companyInfo"] = User::find(User::find($id)->parent_id);
+                    return view('front.profile', $content);
                 }
             }
 
             //Company Redirect For Emp
-            if($content['record']->overridden_profile===1 && $content['record']->parent_id!=0 && $content['record']->role_id==2){
-                $content['record']=User::find($content['record']->parent_id);
+            if ($content['record']->overridden_profile === 1 && $content['record']->parent_id != 0 && $content['record']->role_id == 2) {
+                $content['record'] = User::find($content['record']->parent_id);
             }
             //End
-        if ((int)$content['record']->facebook_check == 1) {
-            return redirect($content['record']->facebook);
-        } else if(in_array((int)$content['record']->role_id, array(7,5)) && $content['record']->google_review_check == 1) {
-            if ((int)$content['record']->google_review_check == 1) {
-                return redirect()->away($content['record']->google_review);
+            if ((int)$content['record']->facebook_check == 1) {
+                return redirect($content['record']->facebook);
+            } else if (in_array((int)$content['record']->role_id, array(7, 5)) && $content['record']->google_review_check == 1) {
+                if ((int)$content['record']->google_review_check == 1) {
+                    return redirect()->away($content['record']->google_review);
+                }
+            } else if ((int)$content['record']->website_check == 1) {
+
+                return redirect($content['record']->website);
+                // if(!empty($content['record']->https)){
+                //     return redirect($content['record']->https."://".$content['record']->website);
+                // }
+            } else if ((int)$content['record']->linkedin_check == 1) {
+                return redirect($content['record']->linkedin);
+            } else if ((int)$content['record']->instagram_check == 1) {
+
+                return redirect($content['record']->instagram);
+            } else if ((int)$content['record']->tiktok_check == 1) {
+                return redirect($content['record']->tiktok);
+            } else {
+                $parent_id = User::find($id)->parent_id;
+                $content["companyInfo"] = User::find($parent_id);
+                return view('front.profile', $content);
             }
-        } else if ((int)$content['record']->website_check == 1) {
-
-            return redirect($content['record']->website);
-            // if(!empty($content['record']->https)){
-            //     return redirect($content['record']->https."://".$content['record']->website);
-            // }
-        } else if ((int)$content['record']->linkedin_check == 1) {
-            return redirect($content['record']->linkedin);
-        }
-        else if ((int)$content['record']->instagram_check == 1) {
-
-            return redirect($content['record']->instagram);
-        } else if ((int)$content['record']->tiktok_check == 1) {
-            return redirect($content['record']->tiktok);
-        } else {
-            $parent_id=User::find($id)->parent_id;
-            $content["companyInfo"]=User::find($parent_id);
-            return view('front.profile',$content);
-        }
         } else {
             return redirect('/');
         }
     }
 
-    public function meetingAlert(Request $request) {
-        $ret = 'error';        
-        if($request->ajax()) {
+    public function meetingAlert(Request $request)
+    {
+        $ret = 'error';
+        if ($request->ajax()) {
             $userId = Auth::user()->id;
-            if($userId){
+            if ($userId) {
                 $meeting_default_time = $request->selVal;
-                $updated = User::where(["id"=>$userId])->update([
-                    'default_meeting_alert'=>$meeting_default_time
+                $updated = User::where(["id" => $userId])->update([
+                    'default_meeting_alert' => $meeting_default_time
                 ]);
-                if($updated){
-                    $ret='success';
+                if ($updated) {
+                    $ret = 'success';
                 }
             }
         }
         return $ret;
     }
 
-    public function vcards() {
-        if(!empty(request()->action)) {
+    public function vcards()
+    {
+        if (!empty(request()->action)) {
             downloads::create([
-                'user_id'=>request()->id
+                'user_id' => request()->id
             ]);
             $query = User::findOrFail(request()->id);
-            $vcardExport = new \App\VcardExport;
+            $vcardExport = new VcardExport;
             $vcardExport->contactVcardExportService($query);
             exit;
         }
     }
 
-    public function uploadProfilePic(Request $request, $id) {
+    public function uploadProfilePic(Request $request, $id)
+    {
         if (!empty($request->get('profile_picture'))) {
             $record = User::find($id);
-            $image_path = User::where('id',$id)->first()->profile_picture;
-            if (\File::exists($image_path)) {
-                \File::delete($image_path);
+            $image_path = User::where('id', $id)->first()->profile_picture;
+            if (File::exists($image_path)) {
+                File::delete($image_path);
             }
             echo request()->get('profile_picture');
-            list($type,$image) = explode(";",$request->get('profile_picture'));
-            list(,$image)=explode(",",$image);
-            $profile_picture=base64_decode($image);
+            list($type, $image) = explode(";", $request->get('profile_picture'));
+            list(, $image) = explode(",", $image);
+            $profile_picture = base64_decode($image);
             //$image = rand().'.'.$profile_picture->getClientOriginalExtension();
-            $image = rand().'.'.explode("/",$type)[1];
+            $image = rand() . '.' . explode("/", $type)[1];
             //$profile_picture->move(public_path('assets/admin/images'),$image);
-            file_put_contents(public_path('assets/admin/images/'.$image),$profile_picture);
-            $profile_picture = 'assets/admin/images/'.$image;
+            file_put_contents(public_path('assets/admin/images/' . $image), $profile_picture);
+            $profile_picture = 'assets/admin/images/' . $image;
             $record->profile_picture = $profile_picture;
             $record->save();
             echo "Profile Picture Updated Successfully.";
         }
     }
 
-    public function uploadCoverPic(Request $request, $id) {
+    public function uploadCoverPic(Request $request, $id)
+    {
         if (!empty($request->get('cover_image'))) {
             $record = User::find($id);
-            $image_path = User::where('id',$id)->first()->cover_image;
+            $image_path = User::where('id', $id)->first()->cover_image;
             //$cover_position=$request->get("cover_top");
-            if (\File::exists($image_path)) {
-                \File::delete($image_path);
+            if (File::exists($image_path)) {
+                File::delete($image_path);
             }
             $cover_image = $request->get('cover_image');
-            list($type,$image)=explode(";",$cover_image);
-            list(,$image)=explode(",",$image);
-            $cover_image=base64_decode($image);
+            list($type, $image) = explode(";", $cover_image);
+            list(, $image) = explode(",", $image);
+            $cover_image = base64_decode($image);
             //$image = rand().'.'.$cover_image->getClientOriginalExtension();
-            $image = rand().'.'.explode("/",$type)[1];
+            $image = rand() . '.' . explode("/", $type)[1];
             //$cover_image->move(public_path('assets/admin/images'),$image);
-            file_put_contents(public_path('assets/admin/images/'.$image),$cover_image);
-            $cover_image = 'assets/admin/images/'.$image;
+            file_put_contents(public_path('assets/admin/images/' . $image), $cover_image);
+            $cover_image = 'assets/admin/images/' . $image;
             $record->cover_image = $cover_image;
-            $record->cover_selection='image';
+            $record->cover_selection = 'image';
             //$record->cover_pos = (int)$cover_position;
             $record->save();
             echo "Profile Picture Updated Successfully.";
         }
     }
 
-    public function uploadCoverVideo(Request $request,$id) {
-        if(!empty($request->file('cover_video'))){
-            $user=User::find($id);
-            $video_path=$user->cover_video;
-            $cover_video=$request->file('cover_video');
-            if($cover_video->getSize()>36700160){
-                return redirect()->back()->with('error','Video Should Be Less Than 35 Mbs.');
+    public function uploadCoverVideo(Request $request, $id)
+    {
+        if (!empty($request->file('cover_video'))) {
+            $user = User::find($id);
+            $video_path = $user->cover_video;
+            $cover_video = $request->file('cover_video');
+            if ($cover_video->getSize() > 36700160) {
+                return redirect()->back()->with('error', 'Video Should Be Less Than 35 Mbs.');
             }
-            if(\File::exists($video_path)){
-              unlink(public_path($video_path));
+            if (File::exists($video_path)) {
+                unlink(public_path($video_path));
             }
-            $video_name=rand().'.'.$cover_video->getClientOriginalExtension();
-            $cover_video->move(public_path('assets/admin/videos'),$video_name);
-            $video_path='assets/admin/videos/'.$video_name;
-            $user->cover_video=$video_path;
-            $user->cover_selection='video';
+            $video_name = rand() . '.' . $cover_video->getClientOriginalExtension();
+            $cover_video->move(public_path('assets/admin/videos'), $video_name);
+            $video_path = 'assets/admin/videos/' . $video_name;
+            $user->cover_video = $video_path;
+            $user->cover_selection = 'video';
             $user->save();
-            return redirect()->back()->with('success','Video Uploaded Successfully.');
+            return redirect()->back()->with('success', 'Video Uploaded Successfully.');
         }
     }
 
-    public function uploadCoverSlideshow(Request $request,$id) {
-        if(!empty($request->file('cover_slideshow'))){
-            $user=User::find($id);
-            $slideshow_images=json_decode($user->cover_slideshow);
-            if(!empty($slideshow_images)){
-                foreach ($slideshow_images as $image){
-                    if(\File::exists($image)){
-                        \File::delete($image);
+    public function uploadCoverSlideshow(Request $request, $id)
+    {
+        if (!empty($request->file('cover_slideshow'))) {
+            $user = User::find($id);
+            $slideshow_images = json_decode($user->cover_slideshow);
+            if (!empty($slideshow_images)) {
+                foreach ($slideshow_images as $image) {
+                    if (File::exists($image)) {
+                        File::delete($image);
                     }
                 }
             }
-            $cover_slideshow_images=$request->file('cover_slideshow');
-            $image_paths=[];
-            foreach ($cover_slideshow_images as $image){
-                $image_name=rand().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('assets/admin/slideshow/'.$id),$image_name);
-                $image_path='assets/admin/slideshow/'.$id.'/'.$image_name;
-                array_push($image_paths,$image_path);
+            $cover_slideshow_images = $request->file('cover_slideshow');
+            $image_paths = [];
+            foreach ($cover_slideshow_images as $image) {
+                $image_name = rand() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('assets/admin/slideshow/' . $id), $image_name);
+                $image_path = 'assets/admin/slideshow/' . $id . '/' . $image_name;
+                array_push($image_paths, $image_path);
             }
-            $user->cover_slideshow=json_encode($image_paths);
-            $user->cover_selection='slideshow';
+            $user->cover_slideshow = json_encode($image_paths);
+            $user->cover_selection = 'slideshow';
             $user->save();
             return redirect()->back();
         }
     }
 
-    public function updateEmbededCover(Request $request,$id) {
-        if(!empty($request->get('embedded_url'))){
-            $user=User::find($id);
-            $url=$request->get('embedded_url');
+    public function updateEmbededCover(Request $request, $id)
+    {
+        if (!empty($request->get('embedded_url'))) {
+            $user = User::find($id);
+            $url = $request->get('embedded_url');
             preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
-            $user->cover_embed=$match[1];
-            $user->cover_selection='embedded';
+            $user->cover_embed = $match[1];
+            $user->cover_selection = 'embedded';
             $user->save();
             return redirect()->back();
         }
     }
-    
-    public function editProfile($id) {
+
+    public function editProfile($id)
+    {
         $content['record'] = User::findOrFail($id);
-        return view('auth.register-edit',$content);
+        return view('auth.register-edit', $content);
     }
 
-    public function updateProfile(Request $request, $id) {
+    public function updateProfile(Request $request, $id)
+    {
         event(
             new Registered(
                 $user = $this->updated($request->all(), $id)
             )
         );
-        return redirect()->route('pro',$id)->with('success','Updated Successfully');
+        return redirect()->route('pro', $id)->with('success', 'Updated Successfully');
     }
 
-    protected function updated(array $data,$id) {
+    protected function updated(array $data, $id)
+    {
         User::whereId($id)->update([
             'role_id' => 2,
             'first_name' => $data['first_name'] ?? '',
@@ -275,30 +285,31 @@ class ProfileController extends Controller
             'tiktok_check' => $data['tiktok_check'] ?? '',
             'acc_type' => $data['acc_type']
         ]);
-        
+
         $appointment_booking = $cash_app = NULL;
-        
+
         if (
             isset($data['cash_app']) && !empty($data['cash_app'])
         ) {
             $cash_app = $data['cash_app'];
         }
-        
+
         if (
             isset($data['appointment_booking']) && !empty($data['appointment_booking'])
         ) {
             $appointment_booking = $data['appointment_booking'];
         }
-        
+
         return User::whereId($id)->update(compact('cash_app', 'appointment_booking'));
     }
-    
-    public function register(Request $request) {
-        $check=$this->validator($request->all());
-        if($check->fails()) {
+
+    public function register(Request $request)
+    {
+        $check = $this->validator($request->all());
+        if ($check->fails()) {
 
             $request->session()->flashInput($request->input());
-            return view("auth.register",["type"=>request()->session()->get("acc_type")])->with(
+            return view("auth.register", ["type" => request()->session()->get("acc_type")])->with(
                 'errors',
                 (new ViewErrorBag())->put('default', $check->getMessageBag())
             );
@@ -306,66 +317,68 @@ class ProfileController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
-        return auth()->user()->role_id===5?redirect('/admin'):redirect($this->redirectTo($user));
+        return auth()->user()->role_id === 5 ? redirect('/admin') : redirect($this->redirectTo($user));
 
     }
 
-    public function validator(array $data) {
-        return Validator::make($data,[
+    public function validator(array $data)
+    {
+        return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             //'job_title' => ['required','string','max:255'],
-            'company_name' => ['required','string','max:255'],
-            'company_description' => ['required','string'],
-            'mobile_number' => ['required','string','max:255'],
-            'email' => ['required','string','email','max:255','unique:users'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'company_description' => ['required', 'string'],
+            'mobile_number' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'acc_type'=>['required'],
+            'acc_type' => ['required'],
         ]);
     }
 
-    public function create(array $data) {
+    public function create(array $data)
+    {
         $request = request();
         $profile_picture = "";
         if (!empty($request->file('profile_picture'))) {
             $profile_picture = $request->file('profile_picture');
-            $image = rand().'.'.$profile_picture->getClientOriginalExtension();
-            $profile_picture->move(public_path('assets/admin/images'),$image);
-            $profile_picture = 'assets/admin/images/'.$image;
+            $image = rand() . '.' . $profile_picture->getClientOriginalExtension();
+            $profile_picture->move(public_path('assets/admin/images'), $image);
+            $profile_picture = 'assets/admin/images/' . $image;
         }
 
         $cover_image = "";
         if (!empty($request->file('cover_image'))) {
             $cover_image = $request->file('cover_image');
-            $image = rand().'.'.$cover_image->getClientOriginalExtension();
-            $cover_image->move(public_path('assets/admin/images'),$image);
-            $cover_image = 'assets/admin/images/'.$image;
+            $image = rand() . '.' . $cover_image->getClientOriginalExtension();
+            $cover_image->move(public_path('assets/admin/images'), $image);
+            $cover_image = 'assets/admin/images/' . $image;
         }
 
         return User::create([
             'role_id' => ($data["acc_type"] == 'personal') ? 2 : 5,
-            'first_name' => $data['first_name']??"",
-            'last_name' => $data['last_name']??"",
-            'job_title' => $data['job_title']??"",
-            'company_name' => $data['company_name']??"",
-            'company_description' => $data['company_description']??"",
-            'contact_number' => $data['contact_number']??"",
-            'mobile_number' => $data['mobile_number']??"",
-            'mobile_check' => $data['mobile_check']??"",
-            'email' => $data['email']??"",
-            'address' => $data['address']??"",
-            'state' => $data['state']??"",
-            'city' => $data['city']??"",
-            'province' => $data['province']??"",
-            'zipcode' => $data['zipcode']??"",
-            'website' => $data['website']??"",
-            'website_check' => $data['website_check']??"",
-            'website_address' => $data['website_address']??"",
-            'linkedin' => $data['linkedin']??"",
-            'linkedin_check' => $data['linkedin_check']??"",
-            'instagram' => $data['instagram']??"",
-            'instagram_check' => $data['instagram_check']??"",
-            'facebook' => $data['facebook']??"",
-            'facebook_check' => $data['facebook_check']??"",
+            'first_name' => $data['first_name'] ?? "",
+            'last_name' => $data['last_name'] ?? "",
+            'job_title' => $data['job_title'] ?? "",
+            'company_name' => $data['company_name'] ?? "",
+            'company_description' => $data['company_description'] ?? "",
+            'contact_number' => $data['contact_number'] ?? "",
+            'mobile_number' => $data['mobile_number'] ?? "",
+            'mobile_check' => $data['mobile_check'] ?? "",
+            'email' => $data['email'] ?? "",
+            'address' => $data['address'] ?? "",
+            'state' => $data['state'] ?? "",
+            'city' => $data['city'] ?? "",
+            'province' => $data['province'] ?? "",
+            'zipcode' => $data['zipcode'] ?? "",
+            'website' => $data['website'] ?? "",
+            'website_check' => $data['website_check'] ?? "",
+            'website_address' => $data['website_address'] ?? "",
+            'linkedin' => $data['linkedin'] ?? "",
+            'linkedin_check' => $data['linkedin_check'] ?? "",
+            'instagram' => $data['instagram'] ?? "",
+            'instagram_check' => $data['instagram_check'] ?? "",
+            'facebook' => $data['facebook'] ?? "",
+            'facebook_check' => $data['facebook_check'] ?? "",
             'cover_image' => $cover_image,
             'profile_picture' => $profile_picture,
             'password' => Hash::make($data['password']),
@@ -374,42 +387,47 @@ class ProfileController extends Controller
         ]);
     }
 
-    protected function guard() {
+    protected function guard()
+    {
         return Auth::guard();
     }
 
-    public function redirectTo($user) {
-        return route('pro',$user->id);
+    public function redirectTo($user)
+    {
+        return route('pro', $user->id);
     }
 
-    public function changePassword(PasswordValidationForm $request, $id) {
-        User::where('id',$id)->update([
+    public function changePassword(PasswordValidationForm $request, $id)
+    {
+        User::where('id', $id)->update([
             'password' => Hash::make($request->input('password')),
         ]);
-      /* $record = new User::findOrFail($id);
-        $record->password = Hash::make($request->input('password'));
-        $record->save();*/
-        return redirect()->route('pro',$id)->with('success','Password Updated Successfully.');
+        /* $record = new User::findOrFail($id);
+          $record->password = Hash::make($request->input('password'));
+          $record->save();*/
+        return redirect()->route('pro', $id)->with('success', 'Password Updated Successfully.');
     }
 
-    public function viewChangePassword($id) {
+    public function viewChangePassword($id)
+    {
         return view('auth.change-password');
     }
 
-    public function save_employees() {
-        $password="45".request()->get("f_name")."23".request()->get("title");
-         User::create([
+    public function save_employees()
+    {
+        $password = "45" . request()->get("f_name") . "23" . request()->get("title");
+        User::create([
             'role_id' => 2,
-            'first_name' => request()->get("f_name")??"",
-            'last_name' => request()->get("l_name")??"",
-            'job_title' => request()->get("title")??"",
+            'first_name' => request()->get("f_name") ?? "",
+            'last_name' => request()->get("l_name") ?? "",
+            'job_title' => request()->get("title") ?? "",
             'company_name' => "",
             'company_description' => "",
-            'contact_number' => request()->get("phone")??"",
-            'mobile_number' => request()->get("phone")??"",
+            'contact_number' => request()->get("phone") ?? "",
+            'mobile_number' => request()->get("phone") ?? "",
             'mobile_check' => "Mobile",
             'email' => request()->get("email"),
-            'address' => request()->get("location")??"",
+            'address' => request()->get("location") ?? "",
             'state' => "",
             'city' => "",
             'province' => "",
@@ -424,28 +442,29 @@ class ProfileController extends Controller
             'facebook' => "",
             'facebook_check' => "",
             'password' => Hash::make($password),
-            'acc_type' => request()->get("acc_type")??"personal",
-             'parent_id'=>request()->get("parent_id"),
+            'acc_type' => request()->get("acc_type") ?? "personal",
+            'parent_id' => request()->get("parent_id"),
         ]);
-         $user=User::find(request()->get("parent_id"));
-         Mail::to(request()->get("email"))->send(new CreateEmployeeMail($user->company_name,request()->get("email"),$password));
-         return $user->email;
+        $user = User::find(request()->get("parent_id"));
+        Mail::to(request()->get("email"))->send(new CreateEmployeeMail($user->company_name, request()->get("email"), $password));
+        return $user->email;
     }
 
-    public function update_employees($id) {
-        $password="45".request()->get("f_name")."23".request()->get("title");
-        return User::where("id",$id)->update([
+    public function update_employees($id)
+    {
+        $password = "45" . request()->get("f_name") . "23" . request()->get("title");
+        return User::where("id", $id)->update([
             'role_id' => 2,
             'first_name' => request()->get("f_name"),
             'last_name' => request()->get("l_name"),
             'job_title' => request()->get("title"),
             'company_name' => "",
             'company_description' => "",
-            'contact_number' => request()->get("phone")??"",
-            'mobile_number' => request()->get("phone")??"",
+            'contact_number' => request()->get("phone") ?? "",
+            'mobile_number' => request()->get("phone") ?? "",
             'mobile_check' => "Mobile",
-            'email' => request()->get("email")??"",
-            'address' => request()->get("location")??"wetewt",
+            'email' => request()->get("email") ?? "",
+            'address' => request()->get("location") ?? "wetewt",
             'state' => "",
             'city' => "",
             'province' => "",
@@ -460,25 +479,26 @@ class ProfileController extends Controller
             'facebook' => "",
             'facebook_check' => "",
             'password' => Hash::make($password),
-            'acc_type' => request()->get("acc_type")??"personal",
-            'parent_id'=>request()->get("parent_id"),
+            'acc_type' => request()->get("acc_type") ?? "personal",
+            'parent_id' => request()->get("parent_id"),
         ]);
 
     }
 
-    public function save_account() {
-        $password=\Illuminate\Support\Str::random(16);
+    public function save_account()
+    {
+        $password = Str::random(16);
         User::create([
-            'role_id' => request()->get("acc_type")=="company"?5:2,
+            'role_id' => request()->get("acc_type") == "company" ? 5 : 2,
             'first_name' => request()->get("ind_f_name"),
             'last_name' => request()->get("ind_l_name"),
             'job_title' => "",
-            'company_name' => request()->get("company_name")??"",
+            'company_name' => request()->get("company_name") ?? "",
             'company_description' => "",
-            'contact_number' =>"",
+            'contact_number' => "",
             'mobile_number' => "",
             'mobile_check' => "",
-            'email' => request()->get("ind_email")??"",
+            'email' => request()->get("ind_email") ?? "",
             'address' => "",
             'state' => "",
             'city' => "",
@@ -494,120 +514,140 @@ class ProfileController extends Controller
             'facebook' => "",
             'facebook_check' => "",
             'password' => Hash::make($password),
-            'acc_type' => request()->get("acc_type")??"personal",
-            'parent_id'=>request()->get("parent_id"),
+            'acc_type' => request()->get("acc_type") ?? "personal",
+            'parent_id' => request()->get("parent_id"),
         ]);
-        Mail::to(request()->get("ind_email"))->send(new AccountMail(request()->get("ind_email"),$password,request()->get("acc_type")));
+        Mail::to(request()->get("ind_email"))->send(new AccountMail(request()->get("ind_email"), $password, request()->get("acc_type")));
         return 1;
     }
 
-    public function device_profile($user_id,$id) {
-        $device=device::where('profile_url',route('device_profile',["user_id"=>$user_id,"id"=>$id]))->firstOrfail();
+    public function device_profile($user_id, $id)
+    {
+        $device = device::where('profile_url', route('device_profile', ["user_id" => $user_id, "id" => $id]))->firstOrfail();
         return redirect($device->redirected_url);
     }
 
-    public function device_profile_shorten($user_id,$id) {
-        $device=device::where('profile_url',route('device_profile_shorten',["user_id"=>$user_id,"id"=>$id]))->firstOrfail();
+    public function device_profile_shorten($user_id, $id)
+    {
+        $device = device::where('profile_url', route('device_profile_shorten', ["user_id" => $user_id, "id" => $id]))->firstOrfail();
         return redirect()->away($device->redirected_url);
     }
 
-    public function device_profile_new_shorten($user_id,$id) {
-        $device=device::where('profile_url',route('device_profile_new_shorten',["user_id"=>$user_id,"id"=>$id]))->firstOrfail();
+    public function device_profile_new_shorten($user_id, $id)
+    {
+        $device = device::where('profile_url', route('device_profile_new_shorten', ["user_id" => $user_id, "id" => $id]))->firstOrfail();
         return redirect()->away($device->redirected_url);
     }
 
-    public function meet_email(Request $request,$id) {
-        $first_name=$request->get("first_name");
-        $last_name=$request->get("last_name");
-        $email=$request->get("email");
-        $phone=$request->get("phone_number");
-        $meeting_location=$request->get("meeting_location");
+    public function meet_email(Request $request, $id)
+    {
+        $first_name = $request->get("first_name");
+        $last_name = $request->get("last_name");
+        $email = $request->get("email");
+        $phone = $request->get("phone_number");
+        $meeting_location = $request->get("meeting_location");
         $user = User::find($id);
-        if(!empty(trim($first_name)) && !empty(trim($email))){
+        if (!empty(trim($first_name)) && !empty(trim($email))) {
             meeting::create([
-              "first_name" => $first_name,
+                "first_name" => $first_name,
                 "last_name" => $last_name,
                 "email" => $email,
-                "phone"=> $phone,
+                "phone" => $phone,
                 "meeting_location" => $meeting_location,
-                "user_id"=>$id
+                "user_id" => $id
             ]);
-            if($user->parent_id!=0){
-                $company_name=User::find($user->parent_id)->company_name;
-            }else{
-                $company_name=$user->company_name;
+            if ($user->parent_id != 0) {
+                $company_name = User::find($user->parent_id)->company_name;
+            } else {
+                $company_name = $user->company_name;
             }
-            Mail::to($email)->send(new IntroductionEmail($user,$company_name,$first_name,$last_name,$meeting_location));
+            Mail::to($email)->send(new IntroductionEmail($user, $company_name, $first_name, $last_name, $meeting_location));
             Mail::to($user->email)->send(new NewContactAlert($user->first_name));
         }
         return 1;
     }
 
-    public function user_contacts() {
-        $id=Auth::user()->id;
-        $conatcts=meeting::where('user_id',$id)->get();
-        return datatables()->of($conatcts)
-            ->addColumn('date',function ($data){
-                $userTimezone = new \DateTimeZone('America/New_York');
-                $date=new \DateTime($data->created_at,$userTimezone);
-                return $date->format('d-m-yy');
-            })->addColumn('time',function ($data){
-                $userTimezone = new \DateTimeZone('America/New_York');
-                $date=new \DateTime($data->created_at,$userTimezone);
-                return $date->format('h:i A');
-            })->addColumn('action',function ($data){
-                $actions='
-                <button title="Delete Contact" type="button" name="delete_contact" id="'.$data->id.'" class="delete_contact btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
-                <button title="Edit Contact" type="button" name="edit_contact" id="'.$data->id.'" class="edit_contact btn btn-outline-info btn-sm"><i class="fa fa-edit"></i></button>
-                
-                ';
-                return $actions;
-            })->rawColumns(['date','action'])
-            ->make(true);
-    }
-
-    public function delete_contact($id) {
-        $meeting=meeting::find($id);
+    public function delete_contact($id)
+    {
+        $meeting = meeting::find($id);
         $meeting->delete();
         return $this->user_contacts();
     }
-    
-    public function edit_contact($id) {
+
+    public function user_contacts()
+    {
+        $id = Auth::user()->id;
+        $conatcts = meeting::where('user_id', $id)->get();
+        return datatables()->of($conatcts)
+            ->addColumn('date', function ($data) {
+                $userTimezone = new DateTimeZone('America/New_York');
+                $date = new DateTime($data->created_at, $userTimezone);
+                return $date->format('d-m-yy');
+            })->addColumn('time', function ($data) {
+                $userTimezone = new DateTimeZone('America/New_York');
+                $date = new DateTime($data->created_at, $userTimezone);
+                return $date->format('h:i A');
+            })->addColumn('action', function ($data) {
+                $actions = '
+                <button title="Delete Contact" type="button" name="delete_contact" id="' . $data->id . '" class="delete_contact btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>
+                <button title="Edit Contact" type="button" name="edit_contact" id="' . $data->id . '" class="edit_contact btn btn-outline-info btn-sm"><i class="fa fa-edit"></i></button>
+                
+                ';
+                return $actions;
+            })->rawColumns(['date', 'action'])
+            ->make(true);
+    }
+
+    public function edit_contact($id)
+    {
         $meeting_edit = meeting::find($id);
         return $meeting_edit;
     }
-    
-    public function update_contact(Request $request) {
-        if($request->ajax()) {
-            $first_name=$request->get("edit_first_name");
-            $last_name=$request->get("edit_last_name");
-            $email=$request->get("edit_email");
-            $updated_meeting_at=$request->get("edit_created_at");
-            $user_id=$request->get("id");
-            $updated_meeting_at=$request->get("edit_created_at");
-            $meeting_location=$request->get("edit_meeting_location");
 
-            $meeting_id=$request->get("meeting_id");
+    public function update_contact(Request $request)
+    {
+        if ($request->ajax()) {
+            $first_name = $request->get("edit_first_name");
+            $last_name = $request->get("edit_last_name");
+            $email = $request->get("edit_email");
+            $updated_meeting_at = $request->get("edit_created_at");
+            $user_id = $request->get("id");
+            $updated_meeting_at = $request->get("edit_created_at");
+            $meeting_location = $request->get("edit_meeting_location");
 
-            $updated = meeting::where(["id"=>$meeting_id,"user_id"=>$user_id])->update([
-                "created_at"=>$updated_meeting_at,
+            $meeting_id = $request->get("meeting_id");
+
+            $updated = meeting::where(["id" => $meeting_id, "user_id" => $user_id])->update([
+                "created_at" => $updated_meeting_at,
             ]);
-            if($updated){
+            if ($updated) {
                 //Mail::to($email)->send(new UpdateMeetingEmail($first_name,$last_name,$email,$updated_meeting_at,$meeting_location));
             }
             return 1;
         }
     }
 
-    protected function upgrade_profile_front($id, Request $req) {
-        $user = User::find($id);
-        if ($req->input('profile_name') === 'multi' || $req->input('only-company-user')==='multi') {
-            if(auth()->user()->role_id===5){
+    final public function qrCode(Request $request)
+    {
+        $name = DB::table('users')->select('first_name', 'last_name')->where('id', $request->input('customer_id'))->first();
+        $name = [
+            'f_name' => $name->first_name,
+            'l_name' => $name->last_name,
+        ];
+        Mail::to($request->input('email'))->send(new QrCode($request, $name));
+        return response()->json('Email has been sent Successfully.');
+    }
 
-                $content=array(
-                    'profile_status'=>'changed'
+    protected function upgrade_profile_front($id, Request $req)
+    {
+        $user = User::find($id);
+        if ($req->input('profile_name') === 'multi' || $req->input('only-company-user') === 'multi') {
+            if (auth()->user()->role_id === 5) {
+
+                $content = array(
+                    'profile_status' => 'changed'
                 );
-                \DB::table('users')->where('parent_id',$id)->update($content);
+                DB::table('users')->where('parent_id', $id)->update($content);
 
             }
 
@@ -615,7 +655,7 @@ class ProfileController extends Controller
             $user->acc_type = 'individual';
             $user->save();
 
-            if($req->input('only-company-user')) {
+            if ($req->input('only-company-user')) {
                 User::where('parent_id', $id)->delete();
 
             }
@@ -626,44 +666,34 @@ class ProfileController extends Controller
 
             $user->role_id = 5;
             $user->acc_type = 'company';
-            if($user->save()) {
+            if ($user->save()) {
 
                 $content = array(
                     'profile_status' => 'none'
                 );
-                \DB::table('users')->where('parent_id', $id)->update($content);
+                DB::table('users')->where('parent_id', $id)->update($content);
             }
 
             return redirect('/admin')->with('Account Upgraded Successfully. Login Again');
 
-        } else if ($req->input('profile_name') === 'personal' || $req->input('only-company-user')==='personal') {
-            if(auth()->user()->role_id===5){
+        } else if ($req->input('profile_name') === 'personal' || $req->input('only-company-user') === 'personal') {
+            if (auth()->user()->role_id === 5) {
 
-                $content=array(
-                    'profile_status'=>'changed'
+                $content = array(
+                    'profile_status' => 'changed'
                 );
-                \DB::table('users')->where('parent_id',$id)->update($content);
+                DB::table('users')->where('parent_id', $id)->update($content);
 
             }
 
             $user->role_id = 2;
             $user->acc_type = 'personal';
             $user->save();
-            if($req->input('only-company-user')) {
+            if ($req->input('only-company-user')) {
                 User::where('parent_id', $id)->delete();
             }
             return redirect('/admin')->with('Account Upgraded Successfully. Login Again');
 
         }
-    }
-    
-    final public function qrCode(Request $request) {
-        $name = \DB::table('users')->select('first_name','last_name')->where('id',$request->input('customer_id'))->first();
-        $name = [
-            'f_name' => $name->first_name,
-            'l_name' => $name->last_name,
-        ];
-        Mail::to($request->input('email'))->send(new QrCode($request, $name));
-        return response()->json('Email has been sent Successfully.');
     }
 }

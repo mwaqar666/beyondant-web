@@ -1,5 +1,9 @@
 <?php
 
+if ($_SERVER['SERVER_NAME'] === 'dev.beyondant.com') {
+
+}
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
