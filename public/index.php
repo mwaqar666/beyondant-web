@@ -1,6 +1,10 @@
 <?php
 
 if ($_SERVER['SERVER_NAME'] === 'dev.beyondant.com') {
+
+    session_id("testing_site_session");
+    session_start();
+
     [$devUsername, $devPassword] = ['testing', 'testing123'];
 
     if (
@@ -41,8 +45,9 @@ if ($_SERVER['SERVER_NAME'] === 'dev.beyondant.com') {
                     (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
                 );
             }
-            die();
         }
+
+        session_write_close();
     }
 }
 
