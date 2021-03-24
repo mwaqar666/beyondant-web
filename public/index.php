@@ -1,56 +1,5 @@
 <?php
 
-if ($_SERVER['SERVER_NAME'] === 'dev.beyondant.com') {
-
-    session_id("testing_site_session");
-    session_start();
-
-    [$devUsername, $devPassword] = ['testing', 'testing123'];
-
-    if (
-        ! isset($_SESSION['testingUsername'], $_SESSION['testingPassword'])
-        ||
-        ! ($_SESSION['testingUsername'] === $devUsername && $_SESSION['testingPassword'] === $devPassword)
-    ) {
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $html = '
-                <!doctype html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                    <title>Testing Portal</title>
-                </head>
-                <body>
-                    <form action="' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '" method="POST">
-                        <input type="text" name="username">
-                        <input type="password" name="password">
-                        <input type="submit">
-                    </form>
-                </body>
-                </html>
-            ';
-
-            echo $html;
-            die();
-        } else {
-            [$inputUsername, $inputPassword] = [$_POST['username'], $_POST['password']];
-
-            if ($inputUsername === $devUsername && $inputPassword === $devPassword) {
-                // session_start();
-                [$_SESSION['testingUsername'], $_SESSION['testingPassword']] = [$devUsername, $devPassword];
-                header(
-                    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
-                );
-            }
-        }
-
-        session_write_close();
-    }
-}
-
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
