@@ -13,7 +13,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'testing-env'], static function () {
+Route::group(['middleware' => 'check-for-testing-env'], static function () {
     Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(function(){
         Route::get('/', 'DashboardController@index');
         Route::get('/analytics/{id}', 'DashboardController@getAnalyticsData')->name('google-analytics');
