@@ -1,19 +1,47 @@
+<!--suppress HtmlFormInputWithoutLabel -->
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
+        <title>Login 01</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ asset('css/testing.css') }}">
     </head>
     <body>
-        <form action="{{ route('authenticate-testing-credentials') }}" method="POST">
-            @csrf
-            <label for="username">Username</label>
-            <input id="username" type="text" name="username" placeholder="Username">
-            <label for="password">Password</label>
-            <input id="password" type="password" name="password" placeholder="Password">
-            <button type="submit">Log In</button>
-        </form>
+        <section class="ftco-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center mb-5">
+                        <h2 class="heading-section">Beyondant Testing Environment</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-7 col-lg-5">
+                        <div class="login-wrap p-4 p-md-5">
+                            <div class="icon d-flex align-items-center justify-content-center" style="background: #be0103">
+                                <span class="fa fa-user-o"></span>
+                            </div>
+                            <h3 class="text-center mb-4">Beyondant Testing Environment</h3>
+                            <form action="{{ route('authenticate-testing-credentials') }}" class="login-form" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="text" class="form-control rounded-left" name="username" placeholder="Username" required>
+                                    @error('username') <small style="color: #be0103">{{ $message }}</small> @enderror
+                                </div>
+                                <div class="form-group d-flex">
+                                    <input type="password" class="form-control rounded-left" name="password" placeholder="Password" required>
+                                    @error('password') <small style="color: #be0103">{{ $message }}</small> @enderror
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn rounded submit px-3" style="background: #be0103; color: white">Enter Testing Environment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </body>
 </html>
