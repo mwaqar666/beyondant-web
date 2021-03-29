@@ -11,9 +11,9 @@ class AlterUserTable extends Migration
      *
      * @return void
      */
-    public function up()
+    final public function up(): void
     {
-        Schema::table('users',function ($table){
+        Schema::table('users',function (Blueprint $table){
             $table->bigInteger('contact_number')->nullable();
             $table->string('occupation', 100)->nullable();
             $table->string('profile_picture', 100)->nullable();
@@ -26,9 +26,9 @@ class AlterUserTable extends Migration
      *
      * @return void
      */
-    public function down()
+    final public function down(): void
     {
-        Schema::table('users',function ($table){
+        Schema::table('users',function (Blueprint $table){
             $table->dropColumn('contact_number');
             $table->dropColumn('occupation');
             $table->dropColumn('profile_picture');

@@ -79,21 +79,22 @@
                             <ul class="nav side-menu">
                                 <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+
                                         @if(in_array('viewUserProfile',\Request::get('permission')))
                                             <li><a href="{{route('profile')}}">Basic Profiles</a></li>
                                         @endif
+
                                         @if(in_array('viewCompany',\Request::get('permission')))
 
                                             <li><a href="{{route('company')}}">Company Profiles</a></li>
                                         @endif
+
                                         @if(in_array('viewIndividual',\Request::get('permission')))
                                             <li><a href="{{route('individual')}}">Multi-Device Profiles</a></li>
                                         @endif
+
                                     </ul>
-
                                 </li>
-
-
                             </ul>
                         </div>
                     @endif
@@ -108,11 +109,8 @@
                                         <li><a href="{{route('allProfiles')}}">Search</a></li>
                                     </ul>
                                 </li>
-
-
                             </ul>
                         </div>
-
 
                     @endif
 

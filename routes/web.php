@@ -89,9 +89,9 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
 
         // Banner
         Route::get('/banner','BannerController@index')->name('banner');
-        Route::post('/banner',"BannerController@store")->name('banner.create');
-        Route::get('/banner/{id}',"BannerController@show");
-        Route::post('/banner/{id}',"BannerController@update");
+        Route::post('/banner','BannerController@store')->name('banner.create');
+        Route::get('/banner/{id}','BannerController@show');
+        Route::post('/banner/{id}','BannerController@update');
         Route::delete('/banner/destroy/{id}','BannerController@destroy');
         // Route::post('/banner','BannerController@create')->name('banner.create');
 
@@ -99,7 +99,7 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
         // Contact
         Route::get('/contact','ContactController@index')->name('contact');
         // Reset Password
-        Route::post('/reset_account_password', "ProfileController@reset_account_password")->name("reset_account_pass");
+        Route::post('/reset_account_password', 'ProfileController@reset_account_password')->name('reset_account_pass');
 
         // Reseller
         Route::get('/reseller','ResellerController@index')->name('admin.reseller');
@@ -107,8 +107,8 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
         Route::get('/reseller/view/{id}','ResellerController@view');
         Route::delete('/reseller/destroy/{id}','ResellerController@destroy');
         Route::post('/reseller/delete_all','ResellerController@delete_all')->name('reseller.delete_all');
-        Route::get('/reseller/update/{id}',"ResellerController@edit")->name('reseller.edit');
-        Route::patch('/reseller/update/{id}',"ResellerController@update")->name('reseller.update');
+        Route::get('/reseller/update/{id}','ResellerController@edit')->name('reseller.edit');
+        Route::patch('/reseller/update/{id}','ResellerController@update')->name('reseller.update');
         Route::post('/reseller/reset_all','ResellerController@resetResellerPassword')->name('reseller.reset_all');
 
         // Entrepreneurs
@@ -129,14 +129,14 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
     });
 
 
-    Route::get("register",function (){
-        return redirect("/");
-    })->name("register");
+    Route::get('register',function (){
+        return redirect('/');
+    })->name('register');
 
 // Employees Does Not Put Into The Admin b/c Define The Methods In Controllers\ProfileController
-    Route::post('/save_emp', "ProfileController@save_employees")->name("save-employees");
-    Route::post('/update_emp/{id}', "ProfileController@update_employees")->name("update-employees");
-    Route::post('/save_account', "ProfileController@save_account")->name("save_account");
+    Route::post('/save_emp', 'ProfileController@save_employees')->name('save-employees');
+    Route::post('/update_emp/{id}', 'ProfileController@update_employees')->name('update-employees');
+    Route::post('/save_account', 'ProfileController@save_account')->name('save_account');
 
 // Contacts
     Route::get('/profile/contacts','ProfileController@user_contacts')->name('my_contacts');
@@ -148,22 +148,22 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
 
 
 
-    Auth::routes(["register"=>false]);
+    Auth::routes(['register'=>false]);
     Route::get('/login/reseller', 'Auth\LoginController@showResellerLoginForm');
-    Route::post('/login/reseller', 'Auth\LoginController@resellerLogin')->name("reseller.login");
+    Route::post('/login/reseller', 'Auth\LoginController@resellerLogin')->name('reseller.login');
 
 
     Route::middleware(['allowguest'])->group(function (){
 
         Route::get('/', 'HomeController@index')->name('home');
-        Route::post("/register","HomeController@select_account")->name("account_select");
-        Route::post('/subscribe', 'HomeController@subscribe')->name("subscribe");
-        Route::get('/entrepreneurs','EntrepreneursController@index')->name("entrepreneurs");
-        Route::post('/entrepreneurs','EntrepreneursController@store')->name("entrepreneurs.submit");
+        Route::post('/register','HomeController@select_account')->name('account_select');
+        Route::post('/subscribe', 'HomeController@subscribe')->name('subscribe');
+        Route::get('/entrepreneurs','EntrepreneursController@index')->name('entrepreneurs');
+        Route::post('/entrepreneurs','EntrepreneursController@store')->name('entrepreneurs.submit');
 
         // Basic Profile Route Or Others
         Route::get('/profile/{id?}','ProfileController@index')->name('pro');
-        Route::post("/customer/qrcode/{id}","ProfileController@qrCode")->name('customer.qrcode');
+        Route::post('/customer/qrcode/{id}','ProfileController@qrCode')->name('customer.qrcode');
 
         // Upgrade Profile
         Route::get('/upgrade-front-profile/{id?}','ProfileController@upgrade_profile_front')->name('upgrade-front-profile');
@@ -175,7 +175,7 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
 
         // More Shorten URL For Redirecting Device
         Route::get('/pro/{user_id}/D{id}','ProfileController@device_profile_new_shorten')->name('device_profile_new_shorten');
-        Route::post('/profile/{id}/meet','ProfileController@meet_email')->name("meet");
+        Route::post('/profile/{id}/meet','ProfileController@meet_email')->name('meet');
         Route::get('/vcards','ProfileController@vcards')->name('vcards');
         Route::post('/profile/register','ProfileController@register')->name('profile-register');
         Route::post('/upload-cover-pic/{id}','ProfileController@uploadCoverPic')->name('upload-cover-pic');
@@ -187,8 +187,8 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
         Route::post('/reseller-submit', 'ResellerController@index')->name('reseller.submit');
 
         // Reseller Profile
-        Route::get("/reseller/profile/{id}","ResellerController@profile")->name('reseller.profile');
-        Route::post("/reseller/qrcode/{id}","ResellerController@qrCode")->name('reseller.qrcode');
+        Route::get('/reseller/profile/{id}','ResellerController@profile')->name('reseller.profile');
+        Route::post('/reseller/qrcode/{id}','ResellerController@qrCode')->name('reseller.qrcode');
 
         // NFC Android
         Route::get('/nfc-android-service', 'HomeController@nfc_android')->name('nfc-android');
@@ -229,5 +229,5 @@ Route::group(['middleware' => 'non-testing-env'], static function() {
 });
 
 Route::fallback(function(){
-    return "404 not found";
+    return '404 not found';
 });
