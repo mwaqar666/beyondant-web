@@ -14,128 +14,6 @@
     <link href="{{ asset('assets/admin/datatables/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
 
     <style>
-        /*iframe {*/
-        /*    margin-left: 20px;*/
-        /*}*/
-
-        /*#con {*/
-        /*    position: relative;*/
-        /*    width: 100%;*/
-        /*    height: 0;*/
-        /*    padding-bottom: 56.25%;*/
-        /*}*/
-        /*.video {*/
-        /*    position: absolute;*/
-        /*    top: 0;*/
-        /*    left: 0;*/
-        /*    width: 100%;*/
-        /*    height: 100%;*/
-        /*}*/
-        /*#con{*/
-        /*    height: 416px;*/
-        /*    overflow: hidden;*/
-        /*}*/
-
-        /*!*#display up {*!*/
-        /*!*    width: 1250px;*!*/
-        /*!*}*!*/
-
-        /*@media only screen and (max-width: 1200px) {*/
-        /*    #con{*/
-        /*        height: 90%;*/
-        /*        overflow: hidden;*/
-        /*    }*/
-        /*    #display{*/
-        /*       display: inline-block;*/
-        /*        !*width:1200px;*!*/
-        /*    }*/
-        /*}*/
-
-        /*@media only screen and (max-width: 992px) {*/
-        /*    #con{*/
-        /*        height: 225px;*/
-        /*        overflow: hidden;*/
-        /*    }*/
-        /*    #display{*/
-        /*        display: inline-block;*/
-        /*        !*width:1200px;*!*/
-        /*    }*/
-
-        /*}*/
-
-        /*.save_cover{*/
-        /*    background: #be0103;*/
-        /*    color: #fff;*/
-        /*    font-size: 12px;*/
-        /*    position: absolute;*/
-        /*    padding: 10px 40px;*/
-        /*    bottom: 15px;*/
-        /*    right: 30px;*/
-        /*    z-index: 9;*/
-        /*}*/
-
-
-        /*@media only screen and (max-width: 750px) {*/
-        /*    !*#con{*!*/
-        /*    !*    height: 185px;*!*/
-        /*    !*    overflow: hidden;*!*/
-        /*    !*}*!*/
-        /*    !*#display{*!*/
-        /*    !*   width: 100%;*!*/
-        /*    !*}*!*/
-
-        /*    .BTNcontainer .icon {*/
-        /*        color: #fff !important;*/
-        /*        font-size: 20px;*/
-        /*        position: absolute;*/
-        /*        top: 45px;*/
-        /*        left: 61px;*/
-        /*        transform: translate(-50%, -50%);*/
-        /*        -ms-transform: translate(-50%, -50%);*/
-        /*        text-align: center;*/
-        /*        background: #be0103;*/
-        /*        padding: 15px;*/
-        /*        border-radius: 100%;*/
-        /*        line-height: 20px;*/
-        /*    }*/
-
-        /*    .edit-profile-btn {*/
-        /*        background: #fff;*/
-        /*        border-color: #fff;*/
-        /*        color: #be0103;*/
-        /*        padding: 15px;*/
-        /*        border-radius: 100px;*/
-        /*        width: 50px;*/
-        /*        font-size: 20px;*/
-        /*        position: absolute;*/
-        /*        z-index: 9;*/
-        /*        top: 79px;*/
-        /*        left: 38px;*/
-        /*        height: 50px;*/
-        /*    }*/
-
-        /*    .save{*/
-        /*        background: #be0103;*/
-        /*        color: #fff;*/
-        /*        padding: 7px 25px;*/
-        /*        border: none;*/
-        /*        width: 100%;*/
-        /*        font-size: 15px;*/
-        /*    }*/
-
-
-        /*}*/
-
-        /*@media only screen and (max-width: 508px) {*/
-        /*    #con{*/
-        /*        height: 60%;*/
-        /*        overflow: hidden;*/
-        /*    }*/
-        /*    #display{*/
-        /*        width: 100%;*/
-
-        /*    }*/
-        /*}*/
         .download-btn {
             font-size: 19px;
             color: #be0103;
@@ -681,7 +559,7 @@
                                                 </div>
                                                 <div class="col-lg-10 col-md-10 col-11 col-L-paddN">
                                                     <span class="title">Physical Address</span>
-                                                    <span class="Subtitle" onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }}, {{ $record->city ?? '' }},  {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</span>
+                                                    <span class="Subtitle" onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }} {{ $record->city ?? '' }}  {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</span>
                                                 </div>
                                             @endif
                                             
@@ -701,7 +579,7 @@
                                                 </div>
                                                 <div class="col-lg-10 col-md-10 col-11 col-L-paddN">
                                                     <span class="title">Physical Address</span>
-                                                    <span class="Subtitle" onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }}, {{ $record->city ?? '' }},  {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</span>
+                                                    <span class="Subtitle" onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }} {{ $record->city ?? '' }}  {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -1018,7 +896,7 @@
 
                     {{--End Upload--}}
                     @if($record->can_edit_profile ===0)
-                        <a class="edit-profile-btn" id="edit_profile2" href="{{$record->role_id==5||$record->role_id==7?route('user.edit',$record->id):route('edit-profile',$record->id)}}"><i class="fas fa-edit"></i></a>
+                        <a class="edit-profile-btn" id="edit_profile2" href="{{ $record->role_id === 5 || $record->role_id === 7 ? route('user.edit', $record->id) : route('edit-profile', $record->id) }}"><i class="fas fa-edit"></i></a>
                     @endif
                     {{--                    <a class="edit-profile-btn save" id="pos2" style="display:none;float: right"><i class="fas fa-save"></i></a>--}}
                 @endguest
@@ -1084,7 +962,7 @@
                     </div>
                     <div class="col-9">
                         <p>{{ $record->website_address ?? '' }}</p>
-                        <p onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }}, {{ $record->city ?? '' }}, {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</p>
+                        <p onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }} {{ $record->city ?? '' }} {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</p>
                     </div>
                 @endif
                 
@@ -1104,7 +982,7 @@
                     </div>
                     <div class="col-9">
                         <p>{{ $record->website_address ?? '' }}</p>
-                        <p onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }}, {{ $record->city ?? '' }}, {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</p>
+                        <p onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }} {{ $record->city ?? '' }} {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</p>
                     </div>
                 @endif
             </div>
