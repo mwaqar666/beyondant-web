@@ -87,9 +87,6 @@ class UserController extends Controller
     }
     protected function updated(array $data,$id)
     {
-        
-        // dd($data);
-        
         $request = request();
         $profile_picture = '';
         if (!empty($request->file('profile_picture'))) {
@@ -191,30 +188,13 @@ class UserController extends Controller
             ]);
         }
         
-        $appointment_booking = $cash_app = NULL;
+        [ $cash_app, $appointment_booking, $website_address ] = [ User::find($id)->cash_app, User::find($id)->appointment_booking, User::find($id)->website_address ];
         
-        if (
-            isset($data['cash_app']) && !empty($data['cash_app'])
-        ) {
-            $cash_app = $data['cash_app'];
-        }
+        $cash_app = isset($data['cash_app']) && !empty($data['cash_app']) ? $data['cash_app'] : NULL;
+        $website_address = isset($data['website_address']) && !empty($data['website_address']) ? $data['website_address'] : NULL;
+        $appointment_booking = isset($data['appointment_booking']) && !empty($data['appointment_booking']) ? $data['appointment_booking'] : NULL;
         
-        if (
-            isset($data['appointment_booking']) && !empty($data['appointment_booking'])
-        ) {
-            $appointment_booking = $data['appointment_booking'];
-        }
-        
-        if (
-            isset($data['website_address']) && !empty($data['website_address'])
-        ) {
-            $website_address = $data['website_address'];
-        }
-        
-        User::whereId($id)->update(compact('website_address'));
-        
-        // dd($data);
-
+        User::whereId($id)->update(compact('cash_app', 'appointment_booking', 'website_address'));
 
         return $updateQuery;
     }

@@ -286,21 +286,13 @@ class ProfileController extends Controller
             'acc_type' => $data['acc_type']
         ]);
 
-        $appointment_booking = $cash_app = NULL;
-
-        if (
-            isset($data['cash_app']) && !empty($data['cash_app'])
-        ) {
-            $cash_app = $data['cash_app'];
-        }
-
-        if (
-            isset($data['appointment_booking']) && !empty($data['appointment_booking'])
-        ) {
-            $appointment_booking = $data['appointment_booking'];
-        }
-
-        return User::whereId($id)->update(compact('cash_app', 'appointment_booking'));
+        [ $cash_app, $appointment_booking, $website_address ] = [ User::find($id)->cash_app, User::find($id)->appointment_booking, User::find($id)->website_address ];
+        
+        $cash_app = isset($data['cash_app']) && !empty($data['cash_app']) ? $data['cash_app'] : NULL;
+        $website_address = isset($data['website_address']) && !empty($data['website_address']) ? $data['website_address'] : NULL;
+        $appointment_booking = isset($data['appointment_booking']) && !empty($data['appointment_booking']) ? $data['appointment_booking'] : NULL;
+        
+        User::whereId($id)->update(compact('cash_app', 'appointment_booking', 'website_address'));
     }
 
     public function register(Request $request)

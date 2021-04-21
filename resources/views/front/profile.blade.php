@@ -1236,7 +1236,7 @@
                 if($("#meetForm input[name=first_name]").val() && $("#meetForm input[name=email]").val()){
                     $(".continue_contact").addClass("disabled");
                     var text=$(".continue_contact").text();
-                    $(".continue_contact").text("Please Wait...");
+                    $(".continue_contact").text("Processing...may take 60 sec");
                     $(".bypass_contact").addClass("disabled");
                     var formdata=$(this).serializeArray();
                     var data={};
@@ -1797,7 +1797,7 @@
                 if($("#meetFormMob input[name=first_name]").val() && $("#meetFormMob input[name=email]").val()){
                     $(".continue_contact_mob").addClass("disabled");
                     var text=$(".continue_contact_mob").text();
-                    $(".continue_contact_mob").text("Please Wait...");
+                    $(".continue_contact_mob").text("Processing...may take 60 sec");
                     $(".bypass_contact_mob").addClass("disabled");
                     var formdata=$(this).serializeArray();
                     var data={};
