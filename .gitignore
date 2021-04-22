@@ -1,0 +1,9 @@
+/.idea
+/node_modules
+/vendor
+/.editorconfig
+/.env
+/beyondan_beyondant.sql
+/beyondant_latest.sql
+/beyondant__dev
+/public/assets/uploads
