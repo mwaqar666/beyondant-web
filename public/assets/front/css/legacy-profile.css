@@ -12,6 +12,18 @@ ul.navbar-nav li a button {
     height: 70vh;
     border-bottom: 7px solid #b90801;
 }
+
+.legacy-account-profile-picture {
+    height: 218px;
+    width: 218px;
+    margin: 15px;
+    border-radius: 50%;
+}
+
+.main-banner-img {
+    background: url("../../front/images/profile-img-bg.png") no-repeat;
+}
+
 .main-banner-img img {
     position: absolute;
     transform: translate(0, -50%);
@@ -48,7 +60,7 @@ ul.navbar-nav li a button {
     font-size: 45px;
 }
 .life-time span {
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 .life-time img {
     width: 10% !important;
@@ -67,9 +79,8 @@ section.reviews-bg {
     background-size: cover;
     background-position: center;
 }
-.roth{
-    position: absolute;
-    transform: translate(0, -100%);
+.roth {
+    text-align: center;
     margin: 30px auto;
 }
 .comment-main{
@@ -83,7 +94,7 @@ section.reviews-bg {
 	width: 55px !important;
     height: 55px !important;
     border-radius: 50%;
-} 
+}
 .main-cmt-img{
     width: 100% !important;
     height: auto !important;
@@ -123,7 +134,7 @@ section.reviews-bg {
     position: absolute;
     border-style: solid;
     border-width: 13px 0 0 13px;
-	border-color: #f3f3f3 transparent transparent transparent; 
+	border-color: #f3f3f3 transparent transparent transparent;
 }
 footer {
     background: url(../images/footer-bg.jpg);

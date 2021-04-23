@@ -15,6 +15,7 @@ use App\models\meeting;
 use App\Notifications\AccountNotification;
 use App\User;
 use App\VcardExport;
+use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use DB;
@@ -32,11 +33,11 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
-        $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7, 8])->firstOrFail();
+        $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->firstOrFail();
 
-        if ($content['record']->role_id = 8) {
+        if ($content['record']->is_legacy) {
 
-            return view('front.legacy-account', $content);
+            return redirect()->route('legacy', $id);
         }
 
         if (!empty($content['record'])) {

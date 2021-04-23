@@ -165,6 +165,9 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
         Route::get('/profile/{id?}','ProfileController@index')->name('pro');
         Route::post('/customer/qrcode/{id}','ProfileController@qrCode')->name('customer.qrcode');
 
+        // Legacy Profile Route
+        Route::get('/legacy/{user}', ['as' => 'legacy', 'uses' => 'LegacyController@index']);
+
         // Upgrade Profile
         Route::get('/upgrade-front-profile/{id?}','ProfileController@upgrade_profile_front')->name('upgrade-front-profile');
 
