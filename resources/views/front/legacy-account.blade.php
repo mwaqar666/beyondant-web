@@ -188,7 +188,7 @@
                     <li class="row">
                         <div class="col-lg-11 col-11">
                             <label for="write-comment" class="d-none"></label>
-                            <input id="write-comment" type="text" class="form-control" placeholder="write comments ...">
+                            <input id="write-comment" type="text" class="form-control" placeholder="Write your comment...">
                         </div>
                         <div class="col-lg-1 col-1 send-icon">
                             <a href="javascript:void(0)">
