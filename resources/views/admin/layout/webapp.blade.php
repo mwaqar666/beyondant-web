@@ -299,9 +299,13 @@
                                 @endif
 
                                 @if (! auth()->user()->is_legacy && auth()->id() !== 1)
-                                    <a class="dropdown-item" href="javascript:void(0)">Convert To Legacy Profile</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" onclick="this.nextElementSibling.submit()">Convert To Legacy Profile</a>
                                 @elseif (auth()->user()->is_legacy && auth()->id() !== 1)
-                                    <a class="dropdown-item" href="javascript:void(0)">Convert To Non-Legacy Profile</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" onclick="this.nextElementSibling.submit()">Convert To Non-Legacy Profile</a>
+                                @endif
+
+                                @if (auth()->id() !== 1)
+                                    <form class="d-none" action="{{ route('legacy.toggle', auth()->id()) }}">@csrf</form>
                                 @endif
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
