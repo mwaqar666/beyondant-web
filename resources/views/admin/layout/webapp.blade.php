@@ -298,9 +298,9 @@
                                     <a class="dropdown-item" href="{{route('setting')}}">Settings</a>
                                 @endif
 
-                                @if (auth()->user()->is_legacy && auth()->id() !== 1)
+                                @if (! auth()->user()->is_legacy && auth()->id() !== 1)
                                     <a class="dropdown-item" href="javascript:void(0)">Convert To Legacy Profile</a>
-                                @elseif (! auth()->user()->is_legacy && auth()->id() !== 1)
+                                @elseif (auth()->user()->is_legacy && auth()->id() !== 1)
                                     <a class="dropdown-item" href="javascript:void(0)">Convert To Non-Legacy Profile</a>
                                 @endif
 
