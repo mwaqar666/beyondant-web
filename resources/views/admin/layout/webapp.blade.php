@@ -305,7 +305,7 @@
                                 @endif
 
                                 @if (auth()->id() !== 1)
-                                    <form class="d-none" action="{{ route('legacy.toggle', auth()->id()) }}">@csrf</form>
+                                    <form class="d-none" method="POST" action="{{ route('legacy.toggle', auth()->id()) }}">@csrf</form>
                                 @endif
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
