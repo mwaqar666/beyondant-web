@@ -1,21 +1,29 @@
 @extends('admin.layout.webapp')
+
 @section('page_css')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 @endsection
+
 @section('content')
 
     <div class="right_col" role="main">
-        <div class="row col-lg-12 mb-3" style="background: linear-gradient(to top right, #3366cc -8%, #66ff99 109%);border-radius: 10px;padding: 20px">
+        <div class="row col-lg-12 mb-3"
+             style="background: linear-gradient(to top right, #3366cc -8%, #66ff99 109%);border-radius: 10px;padding: 20px">
             <h4 class="text-white font-weight-bold">Analytic data refreshes every 48 hrs.</h4>
         </div>
+
         <!-- top tiles -->
         <div class="row" style="display: block;">
             <div class="tile_count">
-                @if (auth()->user()->role_id!==1)
+                @if (auth()->user()->role_id !== 1)
                 @else
                     <div class="col-md-3 col-sm-6  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-                        <div><a class="count green" href="{{route('users')}}">{{$user??''}}</a></div>
+                        <span class="count_top">
+                            <i class="fa fa-user"></i> Total Users
+                        </span>
+                        <div>
+                            <a class="count green" href="{{ route('users') }}">{{ $user ?? '' }}</a>
+                        </div>
                     </div>
                 @endif
 
@@ -27,7 +35,8 @@
                         } else {
                             echo "Profiles";
                         }?></span>
-                    <div><a class="count green" href="{{route('profile')}}">{{$employees??$profile??$devices??''}}</a></div>
+                    <div><a class="count green" href="{{route('profile')}}">{{$employees??$profile??$devices??''}}</a>
+                    </div>
                 </div>
 
                 {{--Graph And Downloads--}}
@@ -35,11 +44,14 @@
                     @if(in_array(auth()->user()->role_id, array(1,5))||auth()->user()->subscription_status===1)
                         <div class="col-md-3 col-sm-6 tile_stats_count">
                             <span class="count_top"><i class="fa fa-eye"></i> Total Profile Views</span>
-                            <div><a class="count green" id="total_views" href="{{action('admin\DashboardController@index')}}">{{ $views_count ?? 0}}</a></div>
+                            <div><a class="count green" id="total_views"
+                                    href="{{action('admin\DashboardController@index')}}">{{ $views_count ?? 0}}</a>
+                            </div>
                         </div>
                         <div class="col-md-3 col-sm-6 tile_stats_count">
                             <span class="count_top"><i class="fa fa-download"></i> Total Contact Downloads</span>
-                            <div><a class="count green" id="total_downloads" href="{{action('admin\DashboardController@index')}}">{{$downloads}}</a></div>
+                            <div><a class="count green" id="total_downloads"
+                                    href="{{action('admin\DashboardController@index')}}">{{$downloads}}</a></div>
                         </div>
                     @endif
                 @endif
@@ -50,21 +62,26 @@
             @if(auth()->user()->role_id===1||auth()->user()->subscription_status===1)
                 <div class="container row">
                     <div class="col-10 offset-1 p-3 pt-5">
-{{--                        <div class="text-center">--}}
-{{--                            <div class="spinner-border text-danger" role="status" id="loading_graph">--}}
-{{--                                <span class="sr-only">Loading...</span>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="text-center">--}}
+                        {{--                            <div class="spinner-border text-danger" role="status" id="loading_graph">--}}
+                        {{--                                <span class="sr-only">Loading...</span>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-3">
-                                        <button class="btn btn-block btn-danger" id="select_date" style="background:linear-gradient(90deg, rgba(162,18,5,0.9640231092436975) 22%, rgba(121,9,75,1) 94%);border-radius: 10px;padding: 10px;border: none;">Select Date</button>
+                                        <button class="btn btn-block btn-danger" id="select_date"
+                                                style="background:linear-gradient(90deg, rgba(162,18,5,0.9640231092436975) 22%, rgba(121,9,75,1) 94%);border-radius: 10px;padding: 10px;border: none;">
+                                            Select Date
+                                        </button>
                                     </div>
                                     <div class="col-8" id="start_end_date" style="display: none">
                                         <div class="row p-3">
-                                            <h4 class="text-dark font-weight-bold ml-3 mr-2">Start Date: </h4><span class="text-danger font-weight-bold ml-2"></span>
-                                            <h4 class="text-dark font-weight-bold ml-3 mr-2">End Date: </h4><span class="text-danger font-weight-bold ml-2"></span>
+                                            <h4 class="text-dark font-weight-bold ml-3 mr-2">Start Date: </h4><span
+                                                class="text-danger font-weight-bold ml-2"></span>
+                                            <h4 class="text-dark font-weight-bold ml-3 mr-2">End Date: </h4><span
+                                                class="text-danger font-weight-bold ml-2"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +181,7 @@
             //Updating Chart
 
             //Getting Initial Data
-            $.get('{{route('google-analytics',auth()->user()->id)}}',function (data) {
+            $.get('{{route('google-analytics',auth()->user()->id)}}', function (data) {
                 // var total=chartUpdate(data);
                 // $("#total_views").text(total);
                 drawChart(data);
@@ -216,13 +233,13 @@
             google.charts.setOnLoadCallback(drawChart);
 
             function drawChart(testing) {
-                var d=[];
-                var dat=  ["Element", "Views", {role: "style"}];
+                var d = [];
+                var dat = ["Element", "Views", {role: "style"}];
                 d.push(dat);
                 testing.forEach((item) => {
-                   let colors=Math.floor(Math.random() * 1000) + 100;
+                    let colors = Math.floor(Math.random() * 1000) + 100;
                     var a = new Date(item[1]);
-                    d.push([a.toLocaleString('default', { month: 'short' }) + "," + a.getDate(),item[0],"FF7"+colors]);
+                    d.push([a.toLocaleString('default', {month: 'short'}) + "," + a.getDate(), item[0], "FF7" + colors]);
 
                 });
 

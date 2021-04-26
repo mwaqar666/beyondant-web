@@ -59,11 +59,11 @@
                     </button>
                 </div>
                 <div class="modal-body" style="padding: 0px">
-                    <img  id="cropper" />
+                    <img id="cropper"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary back_profile_pic" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger save_profile_pic"  style="background-color: #be0103;">Save changes</button>
+                    <button type="button" class="btn btn-danger save_profile_pic" style="background-color: #be0103;">Save changes</button>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     <div class="col-sm-6 col-4 text-right">
                         @guest
                         @else
-                            <a href="#" class="d-inline-block m-r-auto user-logout" data-toggle="modal" data-target="#upgrade-profile" >Upgrade</a>
+                            <a href="#" class="d-inline-block m-r-auto user-logout" data-toggle="modal" data-target="#upgrade-profile">Upgrade</a>
 
                             <a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="d-inline-block m-r-auto user-logout">Logout</a>
                             <form id="logout-form" action="{{route('logout')}}" method="post" style="display: none">@csrf</form>
@@ -119,25 +119,25 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-12 pt-2">
-                                    <input type="text" placeholder="Enter Our 1st Meeting Location" name="meeting_location" class="form-control" />
+                                    <input type="text" placeholder="Enter Our 1st Meeting Location" name="meeting_location" class="form-control"/>
                                 </div>
                                 <div class="col-12 pt-2">
-                                    <input type="text" placeholder="Your First Name" name="first_name" class="form-control" />
+                                    <input type="text" placeholder="Your First Name" name="first_name" class="form-control"/>
                                 </div>
                                 <div class="col-12 pt-2">
-                                    <input type="text" placeholder="Your Last Name" name="last_name" class="form-control" />
+                                    <input type="text" placeholder="Your Last Name" name="last_name" class="form-control"/>
                                 </div>
                                 <div class="col-12 pt-2">
-                                    <input type="email" placeholder="Your E-mail" name="email" class="form-control" />
+                                    <input type="email" placeholder="Your E-mail" name="email" class="form-control"/>
                                 </div>
                                 <div class="col-12 pt-2">
-                                    <input type="text" placeholder="Your Phone Number" name="phone_number" class="form-control" />
+                                    <input type="text" placeholder="Your Phone Number" name="phone_number" class="form-control"/>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet" data-dismiss="modal" >Close</button>
-                            <a class="btn btn-danger btn-lg bypass_contact" style="background-color: #be0103;"  href="{{route('vcards',['action' => 'export', 'id' => $record->id])}}"> Bypass </a>
+                            <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet" data-dismiss="modal">Close</button>
+                            <a class="btn btn-danger btn-lg bypass_contact" style="background-color: #be0103;" href="{{route('vcards',['action' => 'export', 'id' => $record->id])}}"> Bypass </a>
                             <button type="submit" class="btn btn-danger btn-lg continue_contact" data-id="{{$record->id}}" style="background-color: #be0103;">Continue</button>
                         </div>
                     </form>
@@ -174,7 +174,7 @@
                                                         @if(!empty($record))
                                                             @php
                                                                 $m_alert_var = ($record->default_meeting_alert!=0)?explode("-",$record->default_meeting_alert):0;
-                                                                $selected_val=$m_alert_var[1]??0;
+                                                                $selected_val=$m_alert_var[1]??0
                                                             @endphp
                                                         @endif
                                                         <select class="form-control" meetingtimeframe="{{ (!empty($record))?$record->default_meeting_alert:'' }}" id="selected-option">
@@ -188,7 +188,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
 
 
                                             <tr>
@@ -264,10 +263,10 @@
                     @elseif($companyInfo->cover_selection=='slideshow')
 
 
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 @for($indicator=0;$indicator<count(json_decode($companyInfo->cover_slideshow));$indicator++)
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$indicator}}" class="{{$indicator==0 ? 'active':''}}" ></li>
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$indicator}}" class="{{$indicator==0 ? 'active':''}}"></li>
                                 @endfor
                             </ol>
                             <div class="carousel-inner">
@@ -289,7 +288,8 @@
                         </div>
 
                     @elseif($companyInfo->cover_selection=='embedded')
-                        boom<iframe
+                        boom
+                        <iframe
                             style="height: 390px; width: 640px;"
                             id="display-embedded"
                             class="cover-image profile-picOne img-fluid"
@@ -302,7 +302,7 @@
 
 
                     @else
-                        <img id="display" src="{{asset(($companyInfo->cover_image?$companyInfo->cover_image:'assets/front/images/cover.jpg'))}}"  class="cover-image profile-picOne img-fluid"  >
+                        <img id="display" src="{{asset(($companyInfo->cover_image?$companyInfo->cover_image:'assets/front/images/cover.jpg'))}}" class="cover-image profile-picOne img-fluid">
                     @endif
                 @else
                     @if($record->cover_selection=='video')
@@ -312,10 +312,10 @@
 
                     @elseif($record->cover_selection=='slideshow')
 
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 @for($indicator=0;$indicator<count(json_decode($record->cover_slideshow));$indicator++)
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$indicator}}" class="{{$indicator==0 ? 'active':''}}" ></li>
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{$indicator}}" class="{{$indicator==0 ? 'active':''}}"></li>
                                 @endfor
                             </ol>
                             <div class="carousel-inner">
@@ -349,7 +349,7 @@
                         </iframe>
 
                     @else
-                        <img id="display" src="{{asset(($record->cover_image?$record->cover_image:'assets/front/images/cover.jpg'))}}"  class="cover-image profile-picOne img-fluid" >
+                        <img id="display" src="{{asset(($record->cover_image?$record->cover_image:'assets/front/images/cover.jpg'))}}" class="cover-image profile-picOne img-fluid">
                     @endif
                 @endif
                 {{--                </div>--}}
@@ -377,24 +377,24 @@
                             <span class="icon" title="User Profile" style="display: none">
                                 <i class="fas fa-image upload-buttonOne"></i>
                                 <input class="file-uploadOne" id="cover_image" name="cover_image" type="file" accept="image/*">
-                                <input name="cover_top" type="hidden" value="0" />
+                                <input name="cover_top" type="hidden" value="0"/>
                                 <span class="text">Update Cover Photo</span>
                             </span>
                         </form>
                         <span style="display: none">
                             <form id="video_Form" method="post" action="{{route('upload-cover-video',auth()->user()->id)}}" enctype="multipart/form-data">
-                                <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                 <input class="file-upload-video" id="cover_video" name="cover_video" type="file" accept="video/*">
                             </form>
 
                             <form id="slideshow_Form" method="post" action="{{route('upload-slideshow',auth()->user()->id)}}" enctype="multipart/form-data">
-                                <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                                 <input class="file-upload-slideshow" id="cover_slideshow" name="cover_slideshow[]" type="file" multiple accept="image/*">
                             </form>
                         </span>
                     </div>
                     @if($record->role_id==5||$record->role_id==7)
-                        <a class="edit-profile-btn text-white" style="bottom: 50px" href="{{action("admin\DashboardController@index")}}"><i class="fas fa-arrow-left" ></i>  Back To Admin View</a>
+                        <a class="edit-profile-btn text-white" style="bottom: 50px" href="{{action("admin\DashboardController@index")}}"><i class="fas fa-arrow-left"></i> Back To Admin View</a>
                     @endif
                     @if($record->can_edit_profile===0)
                         <a class="edit-profile-btn" id="edit_profile" href="{{$record->role_id==5||$record->role_id==7?route('user.edit',$record->id):route('edit-profile',$record->id)}}"><i class="fas fa-edit"></i> Edit Public Profile </a>
@@ -428,7 +428,9 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-5 textCenter_mob wow fadeInLeft">
-                        <h2><strong>{{ $record->first_name ?? '' }} {{ $record->last_name ?? '' }}</strong></h2>
+                        <h2>
+                            <strong>{{ $record->first_name ?? '' }} {{ $record->last_name ?? '' }}</strong>
+                        </h2>
                         <p>{{ $record->job_title ?? '' }}</p>
                     </div>
                     <div class="col-md-4 col-lg-3 wow fadeInRight">
@@ -562,7 +564,7 @@
                                                     <span class="Subtitle" onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }} {{ $record->city ?? '' }}  {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</span>
                                                 </div>
                                             @endif
-                                            
+
                                             @if (! empty($record->website_address) && $record->website_address === 'Website')
                                                 <div class="col-lg-2 col-md-2 col-1 col-R-paddN">
                                                     <img alt="" src="{{ asset('assets/front/images/globe-icon-red.png') }}" class="img-fluid coliCon">
@@ -572,7 +574,7 @@
                                                     <span class="Subtitle" onclick="location.href = this.innerText" style="cursor: pointer">{{ $record->website ?? '' }}</span>
                                                 </div>
                                             @endif
-                                            
+
                                             @if (! empty($record->website_address) && $record->website_address === 'Address')
                                                 <div class="col-lg-2 col-md-2 col-1 col-R-paddN">
                                                     <img alt="" src="{{asset('assets/front/images/')}}/location-icon-red.png" class="img-fluid coliCon">
@@ -640,11 +642,11 @@
                     </button>
                 </div>
                 <div class="modal-body" style="padding: 0px">
-                    <img  id="cropper2" />
+                    <img id="cropper2"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary back_profile_pic2" data-dismiss="modal">Back</button>
-                    <button type="button" class="btn btn-danger save_profile_pic2"  style="background-color: #be0103;">Save changes</button>
+                    <button type="button" class="btn btn-danger save_profile_pic2" style="background-color: #be0103;">Save changes</button>
                 </div>
             </div>
         </div>
@@ -672,25 +674,25 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Enter Our 1st Meeting Location" name="meeting_location" class="form-control" />
+                                <input type="text" placeholder="Enter Our 1st Meeting Location" name="meeting_location" class="form-control"/>
                             </div>
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Your First Name" name="first_name" class="form-control" />
+                                <input type="text" placeholder="Your First Name" name="first_name" class="form-control"/>
                             </div>
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Your Last Name" name="last_name" class="form-control" />
+                                <input type="text" placeholder="Your Last Name" name="last_name" class="form-control"/>
                             </div>
                             <div class="col-12 pt-2">
-                                <input type="email" placeholder="Your E-mail" name="email" class="form-control" />
+                                <input type="email" placeholder="Your E-mail" name="email" class="form-control"/>
                             </div>
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Your Phone Number" name="phone_number" class="form-control" />
+                                <input type="text" placeholder="Your Phone Number" name="phone_number" class="form-control"/>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet_mob" data-dismiss="modal" >Close</button>
-                        <a class="btn btn-danger btn-lg bypass_contact_mob" style="background-color: #be0103;"  href="{{route('vcards',['action' => 'export', 'id' => $record->id])}}"> Bypass </a>
+                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet_mob" data-dismiss="modal">Close</button>
+                        <a class="btn btn-danger btn-lg bypass_contact_mob" style="background-color: #be0103;" href="{{route('vcards',['action' => 'export', 'id' => $record->id])}}"> Bypass </a>
                         <button type="submit" class="btn btn-danger btn-lg continue_contact_mob" data-id="{{$record->id}}" style="background-color: #be0103;">Continue</button>
                     </div>
                 </form>
@@ -716,10 +718,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <input type="hidden" name="_token" value="{{csrf_token()}}" />
+                            <input type="hidden" name="_token" value="{{csrf_token()}}"/>
                             <div class="form-group">
                                 <label for="embedded_url">Enter Video URL</label>
-                                <input type="text" class="form-control" name="embedded_url" />
+                                <input type="text" class="form-control" name="embedded_url"/>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -773,7 +775,7 @@
 
                 @if (isset($companyInfo) && ($record->cover_image=="" && $record->cover_video=="" && $record->cover_slideshow=="" && $record->cover_embed==""))
                     @if($companyInfo->cover_selection=='video')
-                        <video id="display-video" controls autoplay muted loop class="cover-image profile-picOne img-fluid" >
+                        <video id="display-video" controls autoplay muted loop class="cover-image profile-picOne img-fluid">
                             <source src="{{asset($companyInfo->cover_video)}}">
                         </video>
 
@@ -811,7 +813,7 @@
 
 
                     @else
-                        <img id="display2" src="{{asset(($companyInfo->cover_image?$companyInfo->cover_image:'assets/front/images/cover.jpg'))}}"  class="cover-image profile-picOne img-fluid"  >
+                        <img id="display2" src="{{asset(($companyInfo->cover_image?$companyInfo->cover_image:'assets/front/images/cover.jpg'))}}" class="cover-image profile-picOne img-fluid">
                     @endif
                 @else
                     @if($record->cover_selection=='video')
@@ -852,7 +854,7 @@
                         </iframe>
 
                     @else
-                        <img id="display2" src="{{asset(($record->cover_image?$record->cover_image:'assets/front/images/cover.jpg'))}}"  class="cover-image profile-picOne img-fluid" >
+                        <img id="display2" src="{{asset(($record->cover_image?$record->cover_image:'assets/front/images/cover.jpg'))}}" class="cover-image profile-picOne img-fluid">
                     @endif
                 @endif
                 {{--                </div>--}}
@@ -863,7 +865,7 @@
                     <span class="icon" style="z-index: 1000" title="User Cover" id="upload">
                         <i class="fas fa-image" data-toggle="modal" data-target="#uploadSelection"></i>
                         <input class="file-uploadTwo" type="file" id="cover_image" name="cover_image" accept="image/*">
-                         <input id="cover_top2" name="cover_top" type="hidden" value="0" />
+                         <input id="cover_top2" name="cover_top" type="hidden" value="0"/>
                     </span>
                         </form>
                     @endif
@@ -965,7 +967,7 @@
                         <p onclick="navigateToAddress(event)" style="cursor: pointer">{{ $record->address ?? '' }} {{ $record->city ?? '' }} {{ $record->state ?? '' }} {{ $record->zipcode ?? '' }}</p>
                     </div>
                 @endif
-                
+
                 @if (! empty($record->website_address) && $record->website_address === 'Website')
                     <div class="col-3">
                         <img src="{{ asset('assets/front/images/globe-icon-red.png') }}" class="img-fluid">
@@ -975,7 +977,7 @@
                         <p>{{ $record->website ?? '' }}</p>
                     </div>
                 @endif
-                
+
                 @if (! empty($record->website_address) && $record->website_address === 'Address')
                     <div class="col-3">
                         <img src="{{ asset('assets/front/images/location-icon-red.png') }}" class="img-fluid">
@@ -1029,7 +1031,7 @@
     <div class="modal fade" id="upgrade-profile" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form  method="get" action="{{url('upgrade-front-profile/'.$record->id)}}">
+                <form method="get" action="{{url('upgrade-front-profile/'.$record->id)}}">
                     <div class="modal-header" style="background-color: #be0103;">
                         <h5 class="modal-title text-white" id="exampleModalLongTitle">Upgrade Profile</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1044,12 +1046,12 @@
                                     <input type="radio" name="profile_name" value="multi"> <label>Multi Device Account</label>
                                 @endif
                                 @if($record->acc_type==='company')
-                                    <input type="radio" name="profile_name" value="personal"  @if($record->acc_type==='company') id="company-users-delete-alert"  data-toggle="modal" data-target="#company-user-alert" @endif> <label>Personal</label><br>
+                                    <input type="radio" name="profile_name" value="personal" @if($record->acc_type==='company') id="company-users-delete-alert" data-toggle="modal" data-target="#company-user-alert" @endif> <label>Personal</label><br>
                                     <input type="radio" name="profile_name" value="multi" @if($record->acc_type==='company') id="company-users-delete-alert" data-toggle="modal" data-target="#company-user-alert" @endif> <label>Multi Device Account</label>
                                 @endif
                                 @if($record->acc_type==='individual')
-                                    <input type="radio" name="profile_name" value="personal"  > <label>Personal</label><br>
-                                    <input type="radio" name="profile_name" value="company" > <label>Company Account</label><br>
+                                    <input type="radio" name="profile_name" value="personal"> <label>Personal</label><br>
+                                    <input type="radio" name="profile_name" value="company"> <label>Company Account</label><br>
                                 @endif
 
                             </div>
@@ -1058,7 +1060,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet_mob" data-dismiss="modal" >Close</button>
+                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet_mob" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger btn-lg continue_contact_mob" style="background-color: #be0103;">Downgrade</button>
                     </div>
                 </form>
@@ -1083,10 +1085,10 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Enter Our 1st Meeting Location" name="edit_meeting_location" id="edit_meeting_location" class="form-control" readonly="" />
+                                <input type="text" placeholder="Enter Our 1st Meeting Location" name="edit_meeting_location" id="edit_meeting_location" class="form-control" readonly=""/>
                             </div>
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Your First Name"  id='edit_first_name' name="edit_first_name" class="form-control" readonly="" />
+                                <input type="text" placeholder="Your First Name" id='edit_first_name' name="edit_first_name" class="form-control" readonly=""/>
                             </div>
                             <div class="col-12 pt-2">
                                 <input type="text" placeholder="Your Last Name" name="edit_last_name" id="edit_last_name" class="form-control" readonly=""/>
@@ -1098,13 +1100,13 @@
                                 <input type="text" placeholder="Your Phone Number" name="edit_phone_number" id="edit_phone_number" class="form-control" readonly=""/>
                             </div>
                             <div class="col-12 pt-2">
-                                <input type="text" placeholder="Edit date" name="edit_created_at" id="edit_created_at" class="form-control" />
+                                <input type="text" placeholder="Edit date" name="edit_created_at" id="edit_created_at" class="form-control"/>
                             </div>
 
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet" data-dismiss="modal" >Close</button>
+                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-danger btn-lg e_contact" id='e_contact' data-id="{{$record->id}}" style="background-color: #be0103;">edit</button>
                     </div>
                 </form>
@@ -1121,7 +1123,7 @@
     <div class="modal fade" id="company-user-alert" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <form  method="get" action="{{url('upgrade-front-profile/'.$record->id)}}">
+                <form method="get" action="{{url('upgrade-front-profile/'.$record->id)}}">
                     <div class="modal-header" style="background-color: #be0103;">
                         <h5 class="modal-title text-white" id="exampleModalLongTitle">Alert! </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1131,15 +1133,15 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <p> <b> Are You Sure You Want To Delete Employees  Permanently? </b></p>
+                                <p><b> Are You Sure You Want To Delete Employees Permanently? </b></p>
                             </div>
                         </div>
                         <input type="hidden" name="only-company-user" id="company-upgrade"/>
                         <input type="hidden" name="delete-users" value="delete-user"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet_mob" data-dismiss="modal" >Back</button>
-                        <button type="submit" class="btn btn-danger btn-lg continue_contact_mob" id="delete-user-company" style="background-color: #be0103;" >Delete & Upgrade</button>
+                        <button type="button" class="btn btn-secondary btn-lg mr-auto close_meet_mob" data-dismiss="modal">Back</button>
+                        <button type="submit" class="btn btn-danger btn-lg continue_contact_mob" id="delete-user-company" style="background-color: #be0103;">Delete & Upgrade</button>
                     </div>
                 </form>
             </div>
@@ -1149,12 +1151,12 @@
 @section('pageJs')
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css" integrity="sha256-jKV9n9bkk/CTP8zbtEtnKaKf+ehRovOYeKoyfthwbC8=" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.min.js" integrity="sha256-EuV9YMxdV2Es4m9Q11L6t42ajVDj1x+6NZH4U1F+Jvw=" crossorigin="anonymous"></script>
     <script
         src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
@@ -1193,19 +1195,20 @@
             let targetAddress = evt.target.innerText;
             let googleMapsBaseURL = 'https://www.google.com/maps/search/';
             let redirectAddress = `${googleMapsBaseURL}${targetAddress}`;
-            
+
             window.open(redirectAddress, '_blank');
         };
-    
+
         $(document).ready(function () {
 
             let form = document.getElementById('qrcode');
             //     async function postData(url = '', data = {})
-            form.addEventListener('submit',(e) => {
+            form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 let email = form.elements['qr_email'].value;
                 let customer_id = form.elements['customer_id'].value;
                 let qrcode = form.elements['qrcode'].value;
+
                 async function QrCode(url = '', data = {}) {
                     const response = await fetch(url, {
                         method: 'POST',
@@ -1219,7 +1222,8 @@
                     });
                     return response.json();
                 }
-                QrCode("{{ route('customer.qrcode',request()->segment(2)) }}",{ email: email, customer_id: customer_id, qrcode: qrcode})
+
+                QrCode("{{ route('customer.qrcode',request()->segment(2)) }}", {email: email, customer_id: customer_id, qrcode: qrcode})
                     .then(data => {
                         $('#myModal').modal('hide');
                         js_success(data);
@@ -1233,23 +1237,23 @@
 
             $("#meetForm").submit(function (e) {
                 e.preventDefault();
-                if($("#meetForm input[name=first_name]").val() && $("#meetForm input[name=email]").val()){
+                if ($("#meetForm input[name=first_name]").val() && $("#meetForm input[name=email]").val()) {
                     $(".continue_contact").addClass("disabled");
-                    var text=$(".continue_contact").text();
+                    var text = $(".continue_contact").text();
                     $(".continue_contact").text("Processing...may take 60 sec");
                     $(".bypass_contact").addClass("disabled");
-                    var formdata=$(this).serializeArray();
-                    var data={};
-                    formdata.forEach((item)=>{
-                        data[item.name]=item.value;
+                    var formdata = $(this).serializeArray();
+                    var data = {};
+                    formdata.forEach((item) => {
+                        data[item.name] = item.value;
                     });
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': `{{csrf_token()}}`
                         }
                     });
-                    var id=$(".continue_contact").attr("data-id");
-                    $.post(`{{url('/profile')}}/${id}/meet`,data,function (response) {
+                    var id = $(".continue_contact").attr("data-id");
+                    $.post(`{{url('/profile')}}/${id}/meet`, data, function (response) {
                         $(".continue_contact").removeClass("disabled");
                         $(".continue_contact").text(text);
                         $(".bypass_contact").removeClass("disabled");
@@ -1259,7 +1263,7 @@
                     }).catch(function (err) {
                         console.log(err);
                     });
-                }else {
+                } else {
                     $(".bypass_contact")[0].click();
                     $("#saveToCotacts").modal('hide');
                 }
@@ -1280,7 +1284,7 @@
 
             //My Contacts
 
-            var contactsDataTable=$("#contactsTable").DataTable({
+            var contactsDataTable = $("#contactsTable").DataTable({
                 dom: "Blfrtip",
                 buttons: [{
                     extend: "csv",
@@ -1290,7 +1294,7 @@
                     className: "btn-sm text-danger"
                 }],
                 responsive: true,
-                columns:[{data: 'first_name', name: 'first_name'},
+                columns: [{data: 'first_name', name: 'first_name'},
                     {data: 'last_name', name: 'last_name'},
                     {data: 'email', name: 'email'},
                     {data: 'phone', name: 'phone'},
@@ -1301,14 +1305,14 @@
                 ]
             });
 
-            var updateContactTable=(data)=>{
+            var updateContactTable = (data) => {
                 contactsDataTable.clear().draw();
                 contactsDataTable.rows.add(data.data);
                 contactsDataTable.columns.adjust().draw();
             }
 
             $('.my_contacts').click(function () {
-                $.get(`{{route('my_contacts')}}`,function (data) {
+                $.get(`{{route('my_contacts')}}`, function (data) {
                     updateContactTable(data);
                     $("#contactsModal").modal("show");
                 }).catch(function (err) {
@@ -1316,19 +1320,19 @@
                 });
             });
 
-            $(document).on('click','.delete_contact',function () {
-                var id=$(this).attr("id");
+            $(document).on('click', '.delete_contact', function () {
+                var id = $(this).attr("id");
                 $.ajax({
-                    type:'delete',
-                    url:`{{url("profile/contacts/destroy")}}/${id}`,
+                    type: 'delete',
+                    url: `{{url("profile/contacts/destroy")}}/${id}`,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success:function (data) {
+                    success: function (data) {
                         js_success("Deleted Successfully.");
                         updateContactTable(data);
                     },
-                    error:function (err) {
+                    error: function (err) {
                         console.log(err);
                     }
                 })
@@ -1336,17 +1340,17 @@
 
 
             //End MyContacts
-            $(document).on('click','.edit_contact',function() {
+            $(document).on('click', '.edit_contact', function () {
                 var id = $(this).attr("id");
 
                 //altafkorejo
                 $.ajax({
-                    type:"post",
-                    url:`{{url("profile/contacts/edit")}}/${id}`,
+                    type: "post",
+                    url: `{{url("profile/contacts/edit")}}/${id}`,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success:function (data) {
+                    success: function (data) {
                         $("#edit_meeting_location").val(data.meeting_location);
                         $("#edit_first_name").val(data.first_name);
                         $("#edit_last_name").val(data.last_name);
@@ -1357,26 +1361,26 @@
 
                         $('#editMeetForm').modal('show');
                     },
-                    error:function (err) {
+                    error: function (err) {
                         console.log(err);
                     }
                 });
             });
 
 
-            $('#e_contact').on('click', function(e) {
+            $('#e_contact').on('click', function (e) {
                 e.preventDefault();
                 $("#e_contact").addClass("disabled");
-                var text=$("#e_contact").text();
+                var text = $("#e_contact").text();
                 $("#e_contact").text("Please Wait...");
 
                 //altafkorejo
                 var id = $("#e_contact").attr("data-id");
-                var formdata=$("#editMeet").serializeArray();
+                var formdata = $("#editMeet").serializeArray();
 
-                var data={};
-                formdata.forEach((item)=>{
-                    data[item.name]=item.value;
+                var data = {};
+                formdata.forEach((item) => {
+                    data[item.name] = item.value;
                 });
                 data['id'] = id;
 
@@ -1386,7 +1390,7 @@
                     }
                 });
 
-                $.post(`{{route('update_contact')}}`,data,function (response) {
+                $.post(`{{route('update_contact')}}`, data, function (response) {
                     $("#e_contact").removeClass("disabled");
                     $("#e_contact").text(text);
                     $("#editMeetForm").modal('hide');
@@ -1397,88 +1401,86 @@
             });
 
 
-
-
             function retArr(selectedOption) {
-                var arr=[];
-                var selectedValue = selectedOption=='Weeks'?7:30;
-                for(let i=0; i<selectedValue; i++){
-                    arr.push(i+1);
+                var arr = [];
+                var selectedValue = selectedOption == 'Weeks' ? 7 : 30;
+                for (let i = 0; i < selectedValue; i++) {
+                    arr.push(i + 1);
                 }
                 return arr;
             }
 
             function genOpt__10122020(selectedOption) {
-                optHtml='';
+                optHtml = '';
                 var t = $('#selected-option').attr('meetingtimeframe');
 
                 retArr(selectedOption).forEach(element => {
-                    var v = element +'-'+(selectedOption);
-                    optHtml +='<option value='+v+'>'+(v)+'</option>';
+                    var v = element + '-' + (selectedOption);
+                    optHtml += '<option value=' + v + '>' + (v) + '</option>';
                 });
                 return optHtml;
             }
 
             function genOpt(selectedOption) {
-                optHtml='';
+                optHtml = '';
                 var t = $('#selected-option').attr('meetingtimeframe');
                 retArr(selectedOption).forEach(element => {
-                    var v = element +'-'+(selectedOption);
+                    var v = element + '-' + (selectedOption);
 
                     var status = '';
-                    var db_val =  $('#selected-option').attr('meetingtimeframe');
-                    if(v === db_val){
+                    var db_val = $('#selected-option').attr('meetingtimeframe');
+                    if (v === db_val) {
                         status = 'selected ';
                     }
-                    optHtml +="<option "+((v===db_val)?status:'')+" value="+(v)+ ">" +(v) + "</option>";
+                    optHtml += "<option " + ((v === db_val) ? status : '') + " value=" + (v) + ">" + (v) + "</option>";
                 });
                 return optHtml;
             }
 
             var flag = false;
-            $('#selected-option').on('change', function() {
+            $('#selected-option').on('change', function () {
                 var flag = true;
                 let selectedOption = $(this).val();
-                var opt='';
-                (function(selectedOption) {
-                    opt ='select'+' '+selectedOption;
-                    opt += (selectedOption==='Weeks')?opt += genOpt(selectedOption):genOpt(selectedOption);
+                var opt = '';
+                (function (selectedOption) {
+                    opt = 'select' + ' ' + selectedOption;
+                    opt += (selectedOption === 'Weeks') ? opt += genOpt(selectedOption) : genOpt(selectedOption);
                 }(selectedOption));
                 $('#selected-timeframe').html(opt);
             });
 
-            if(flag===false) {
+            if (flag === false) {
                 var s_val = $('#selected-option option:selected').val();
                 var opt = '';
-                if(s_val==="Days" || s_val==="Weeks"){
-                    var opt ='select '+s_val;
+                if (s_val === "Days" || s_val === "Weeks") {
+                    var opt = 'select ' + s_val;
                     opt += genOpt(s_val);
                     $('#selected-timeframe').html(opt);
                 } else {
-                    opt ='select Weeks';
+                    opt = 'select Weeks';
                     opt += genOpt('Weeks');
                     $('#selected-timeframe').html(opt);
                 }
 
             }
 
-            $("#selected-timeframe").change( function() {
+            $("#selected-timeframe").change(function () {
                 var selVal = $(this).val();
-                $('#selected-option').attr('disabled','disabled');
+                $('#selected-option').attr('disabled', 'disabled');
                 $.ajax({
-                    url :'{{route("meeting_alert")}}',
-                    type:'post',
+                    url: '{{route("meeting_alert")}}',
+                    type: 'post',
                     data: {
-                        '_token' : "{{ csrf_token() }}",
-                        "selVal" : selVal,
+                        '_token': "{{ csrf_token() }}",
+                        "selVal": selVal,
                     },
-                    success : function(retStatus) {
-                        if(retStatus==='success'){
+                    success: function (retStatus) {
+                        if (retStatus === 'success') {
                             js_success('Default meeting alert updated');
                         }
                         $('#selected-option').attr('disabled', false);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         js_error('Error while processing');
                         $('#selected-option').attr('disabled', false);
                     }
@@ -1486,10 +1488,6 @@
                 });
 
             });
-
-
-
-
 
 
             //End MyContacts
@@ -1528,7 +1526,7 @@
             // };
 
             //croppie
-            var profile_crop=$("#cropper").croppie();
+            var profile_crop = $("#cropper").croppie();
 
 
             // var cover_crop = $("#cropper").croppie({
@@ -1544,60 +1542,60 @@
             //     }
             // });
 
-            $('#cropModal').on('shown.bs.modal', function(){
+            $('#cropModal').on('shown.bs.modal', function () {
                 profile_crop.croppie('destroy');
-                profile_crop=$("#cropper").croppie({
+                profile_crop = $("#cropper").croppie({
                     enableExif: true,
-                    mouseWheelZoom:'ctrl',
-                    boundary:{
-                        height:400
+                    mouseWheelZoom: 'ctrl',
+                    boundary: {
+                        height: 400
                     },
-                    viewport:{
-                        height:whichPic=="cover"?126:300,
-                        width:whichPic=="cover"?343.2:300,
-                        type:whichPic=="cover"?'square':'circle'
+                    viewport: {
+                        height: whichPic == "cover" ? 126 : 300,
+                        width: whichPic == "cover" ? 343.2 : 300,
+                        type: whichPic == "cover" ? 'square' : 'circle'
                     }
                 });
-                if(whichPic=="cover"){
-                    profile_crop.croppie('bind',{
-                        url:rawCoverImage
+                if (whichPic == "cover") {
+                    profile_crop.croppie('bind', {
+                        url: rawCoverImage
                     });
-                }else{
-                    profile_crop.croppie('bind',{
-                        url:rawImage
+                } else {
+                    profile_crop.croppie('bind', {
+                        url: rawImage
                     });
                 }
 
             });
 
             $(document).on('change', '.file-upload', function () {
-                var reader=new FileReader();
-                reader.onload=function(eve){
-                    rawImage=eve.target.result;
+                var reader = new FileReader();
+                reader.onload = function (eve) {
+                    rawImage = eve.target.result;
                 };
                 reader.readAsDataURL(this.files[0]);
-                whichPic="profile";
+                whichPic = "profile";
                 $("#cropModal").modal('show');
             });
 
-            $('.save_profile_pic').on('click',function () {
+            $('.save_profile_pic').on('click', function () {
                 $("#croptitle").text("Saving....");
-                $(this).attr("disabled",true);
-                $('.back_profile_pic').attr("disabled",true);
+                $(this).attr("disabled", true);
+                $('.back_profile_pic').attr("disabled", true);
                 //let forms = document.querySelector('#fileprofile_picture');
-                if(whichPic=="cover"){
-                    profile_crop.croppie("result",{
+                if (whichPic == "cover") {
+                    profile_crop.croppie("result", {
                         type: 'canvas',
-                        size: {height:420,width:1144},
-                        quality:1
-                    }).then((data)=>{
+                        size: {height: 420, width: 1144},
+                        quality: 1
+                    }).then((data) => {
                         $.ajax({
                             url: "{{ route('upload-cover-pic', request()->segment(2) ) }}",
                             type: "POST",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            data: {"cover_image":data},
+                            data: {"cover_image": data},
                             // contentType: false,
                             // processData: false,
                             success: function (data) {
@@ -1605,22 +1603,22 @@
                             }
                         });
                     });
-                }else{
+                } else {
                     profile_crop.croppie("result")
-                        .then((data)=>{
+                        .then((data) => {
                             $.ajax({
                                 url: "{{ route('upload-profile-pic', request()->segment(2) ) }}",
                                 type: "POST",
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
-                                data: {"profile_picture":data},
+                                data: {"profile_picture": data},
                                 // contentType: false,
                                 // processData: false,
                                 success: function (data) {
                                     window.location.reload();
                                 },
-                                error:function (err) {
+                                error: function (err) {
                                     console.log(err);
                                 }
                             });
@@ -1631,11 +1629,11 @@
             });
 
 
-            function setImage(){
-                var reader=new FileReader();
-                reader.onload=function(eve){
+            function setImage() {
+                var reader = new FileReader();
+                reader.onload = function (eve) {
                     // image.attr("src",eve.target.result);
-                    rawCoverImage=eve.target.result;
+                    rawCoverImage = eve.target.result;
                 };
                 reader.readAsDataURL($(".file-uploadOne")[0].files[0]);
             }
@@ -1712,7 +1710,7 @@
             $(".file-uploadOne").on('change', function () {
                 //readURL(this);
                 setImage();
-                whichPic="cover";
+                whichPic = "cover";
                 $("#cropModal").modal('show');
             });
 
@@ -1721,24 +1719,24 @@
             });
 
             //Video Upload
-            $('.upload-cover-video').on('click',function () {
+            $('.upload-cover-video').on('click', function () {
                 $('.file-upload-video').click();
             });
 
-            $('#cover_video').on('change',function () {
+            $('#cover_video').on('change', function () {
                 $('#video_Form').submit();
             });
 
             //SlideShow Upload
-            $('.upload-slideshow').on('click',function () {
+            $('.upload-slideshow').on('click', function () {
                 $('.file-upload-slideshow').click();
             });
 
-            $('#cover_slideshow').on('change',function () {
+            $('#cover_slideshow').on('change', function () {
                 $('#slideshow_Form').submit();
             });
             //embedded youtube video
-            $('.upload-embedded').on('click',function () {
+            $('.upload-embedded').on('click', function () {
                 $("#uploadSelection").modal('hide');
                 $('#embeddedModal').modal('show');
             });
@@ -1794,23 +1792,23 @@
 
             $("#meetFormMob").submit(function (e) {
                 e.preventDefault();
-                if($("#meetFormMob input[name=first_name]").val() && $("#meetFormMob input[name=email]").val()){
+                if ($("#meetFormMob input[name=first_name]").val() && $("#meetFormMob input[name=email]").val()) {
                     $(".continue_contact_mob").addClass("disabled");
-                    var text=$(".continue_contact_mob").text();
+                    var text = $(".continue_contact_mob").text();
                     $(".continue_contact_mob").text("Processing...may take 60 sec");
                     $(".bypass_contact_mob").addClass("disabled");
-                    var formdata=$(this).serializeArray();
-                    var data={};
-                    formdata.forEach((item)=>{
-                        data[item.name]=item.value;
+                    var formdata = $(this).serializeArray();
+                    var data = {};
+                    formdata.forEach((item) => {
+                        data[item.name] = item.value;
                     });
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': `{{csrf_token()}}`
                         }
                     });
-                    var id=$(".continue_contact_mob").attr("data-id");
-                    $.post(`{{url('/profile')}}/${id}/meet`,data,function (response) {
+                    var id = $(".continue_contact_mob").attr("data-id");
+                    $.post(`{{url('/profile')}}/${id}/meet`, data, function (response) {
                         $(".continue_contact_mob").removeClass("disabled");
                         $(".continue_contact_mob").text(text);
                         $(".bypass_contact_mob").removeClass("disabled");
@@ -1820,7 +1818,7 @@
                     }).catch(function (err) {
                         console.log(err);
                     });
-                }else {
+                } else {
                     $(".bypass_contact_mob")[0].click();
                     $("#saveToCotactsmob").modal('hide');
                 }
@@ -1839,12 +1837,8 @@
             // Mob END MeetModal JS
 
 
-
-
-
-
-            var profile_crop=$("#cropper2").croppie();
-            var rawImage,whichPic,rawCoverImage;
+            var profile_crop = $("#cropper2").croppie();
+            var rawImage, whichPic, rawCoverImage;
 
             var readURL = function (input) {
                 if (input.files && input.files[0]) {
@@ -1852,33 +1846,33 @@
 
                     reader.onload = function (e) {
                         //$('.profile-picThree').attr('src', e.target.result);
-                        rawImage=e.target.result;
+                        rawImage = e.target.result;
                     };
-                    whichPic="profile";
+                    whichPic = "profile";
                     reader.readAsDataURL(input.files[0]);
                     $("#cropModal2").modal('show');
 
                 }
             }
 
-            $('.save_profile_pic2').on('click',function () {
+            $('.save_profile_pic2').on('click', function () {
                 $("#croptitle2").text("Saving....");
-                $(this).attr("disabled",true);
-                $('.back_profile_pic2').attr("disabled",true);
+                $(this).attr("disabled", true);
+                $('.back_profile_pic2').attr("disabled", true);
                 //let forms = document.querySelector('#fileprofile_picture');
-                if(whichPic=="cover"){
-                    profile_crop.croppie('result',{
+                if (whichPic == "cover") {
+                    profile_crop.croppie('result', {
                         type: 'canvas',
-                        size: {height:420,width:1144},
-                        quality:1
-                    }).then((data)=>{
+                        size: {height: 420, width: 1144},
+                        quality: 1
+                    }).then((data) => {
                         $.ajax({
                             url: "{{ route('upload-cover-pic', request()->segment(2) ) }}",
                             type: "POST",
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            data: {"cover_image":data},
+                            data: {"cover_image": data},
                             // contentType: false,
                             // processData: false,
                             success: function (data) {
@@ -1886,8 +1880,7 @@
                             }
                         });
                     });
-                }
-                else {
+                } else {
                     profile_crop.croppie("result")
                         .then((data) => {
                             $.ajax({
@@ -1912,36 +1905,36 @@
             });
 
 
-            $('#cropModal2').on('shown.bs.modal', function(){
+            $('#cropModal2').on('shown.bs.modal', function () {
                 profile_crop.croppie('destroy');
-                profile_crop=$("#cropper2").croppie({
+                profile_crop = $("#cropper2").croppie({
                     enableExif: true,
-                    mouseWheelZoom:'ctrl',
-                    boundary:{
-                        height:400
+                    mouseWheelZoom: 'ctrl',
+                    boundary: {
+                        height: 400
                     },
-                    viewport:{
-                        height:whichPic=="cover"?126:300,
-                        width:whichPic=="cover"?343.2:300,
-                        type:whichPic=="cover"?'square':'circle'
+                    viewport: {
+                        height: whichPic == "cover" ? 126 : 300,
+                        width: whichPic == "cover" ? 343.2 : 300,
+                        type: whichPic == "cover" ? 'square' : 'circle'
                     }
                 });
-                if (whichPic=="cover"){
-                    profile_crop.croppie('bind',{
-                        url:rawCoverImage
+                if (whichPic == "cover") {
+                    profile_crop.croppie('bind', {
+                        url: rawCoverImage
                     });
-                }else {
+                } else {
                     profile_crop.croppie('bind', {
                         url: rawImage
                     });
                 }
             });
 
-            function setImage2(){
-                var reader=new FileReader();
-                reader.onload=function(eve){
+            function setImage2() {
+                var reader = new FileReader();
+                reader.onload = function (eve) {
                     //image2.attr("src",eve.target.result);
-                    rawCoverImage=eve.target.result;
+                    rawCoverImage = eve.target.result;
                 };
                 reader.readAsDataURL($(".file-uploadTwo")[0].files[0]);
             }
@@ -1965,11 +1958,10 @@
                 //     }
                 // });
 
-                whichPic="cover";
+                whichPic = "cover";
                 setImage2();
                 $("#cropModal2").modal('show');
             });
-
 
 
             {{--$("#pos2").click(function () {--}}
@@ -1998,7 +1990,7 @@
             $(".upload-buttonThree").on('click', function () {
                 $(".file-uploadThree").click();
             });
-            $("body").on("click",'#company-users-delete-alert',function(){
+            $("body").on("click", '#company-users-delete-alert', function () {
                 ///alert();
                 // $('#upgrade-profile').modal("hide");
                 $('#company-upgrade').val($(this).val());

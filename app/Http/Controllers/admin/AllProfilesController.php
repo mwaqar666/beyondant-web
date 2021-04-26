@@ -13,21 +13,16 @@ class AllProfilesController extends Controller
         $content['title'] = ucwords(str_replace('-', ' ', request()->segment(2)));
         if (request()->ajax()) {
             $query = User::where([['role_id', '<>', 1], ['role_id', '<>', 4]])->get();
-            return datatables()->of($query)->
-            addColumn('image', function ($data) {
+            return datatables()->of($query)->addColumn('image', function ($data) {
                 return '<img width="65" src="' . asset(!empty($data->profile_picture) ? $data->profile_picture : 'assets/admin/images/placeholder.png') . '">';
-            })->
-            addColumn('checkbox', function ($data) {
+            })->addColumn('checkbox', function ($data) {
                 return '<input type="checkbox" class="delete_checkbox flat" value="' . $data->id . '">';
-            })->
-            addColumn('views', function ($data) {
+            })->addColumn('views', function ($data) {
                 $profile = new ProfileController();
                 return auth()->user()->subscription_status === 1 ? '<h4 class="text-center font-weight-bold text-danger">' . $profile->getProfileViews($data->id) . '</h4>' : '<h4 class="text-center font-weight-bold text-danger"> - </h4>';
-            })->
-            addColumn('profile_link', function ($data) {
+            })->addColumn('profile_link', function ($data) {
                 return '<a target="_blank" href="' . route('pro', $data->id) . '">' . $data->first_name . '</a>';
-            })->
-            addColumn('action', function($data){
+            })->addColumn('action', function($data){
                 $checked=$data->overridden_profile===1?'checked':'';
                 if($data->acc_type==='personal'){
                 $actions='<button title="View" type="button" name="view" id="'.$data->id.'" class="view btn btn-info btn-sm"><i class="fa fa-eye"></i></button>&nbsp;<button title="Show Devices" type="button" name="device" id="'.$data->id.'" class="device btn btn-primary btn-sm"><i class="fa fa-laptop"></i></button>&nbsp;<button title="Reset Password" type="button" name="reset_password" id="'.$data->id.'" class="reset_password btn btn-warning btn-sm"><i class="fa fa-key"></i></button>&nbsp;<button title="Delete" type="button" name="delete" id="'.$data->id.'" class="delete btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>';

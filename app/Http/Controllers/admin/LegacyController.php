@@ -4,14 +4,15 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class LegacyController extends Controller
 {
-    final public function index(User $user): View
+    final public function toggleLegacyProfile(User $user): RedirectResponse
     {
-        $publicComments = $user->load('');
+        $user->is_legacy = !$user->is_legacy;
+        $user->save();
 
-        return view('front.legacy-account');
+        return redirect()->back();
     }
 }

@@ -120,6 +120,8 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
         // Login As Different User
         Route::get('/login_diff_user/{id}','ProfileController@login_user_account')->name('login_as_user');
 
+        // Legacy
+        Route::post('/legacy/toggle/{user}', ['as' => 'legacy.toggle', 'uses' => 'LegacyController@toggleLegacyProfile']);
     });
 
     Route::middleware(['reseller_admin'])->prefix('reseller/admin')->namespace('reseller_admin')->group(function(){
@@ -167,6 +169,8 @@ Route::group(['middleware' => 'check-for-testing-env'], static function () {
 
         // Legacy Profile Route
         Route::get('/legacy/{user}', ['as' => 'legacy', 'uses' => 'LegacyController@index']);
+        Route::post('/legacy/public-comment/{legacy}', ['as' => 'legacy.public-comment.create', 'uses' => 'LegacyController@createPublicComment']);
+        Route::post('/legacy/private-comment/{legacy}/{user}', ['middleware' => 'auth', 'as' => 'legacy.private-comment.create', 'uses' => 'LegacyController@createPrivateComment']);
 
         // Upgrade Profile
         Route::get('/upgrade-front-profile/{id?}','ProfileController@upgrade_profile_front')->name('upgrade-front-profile');

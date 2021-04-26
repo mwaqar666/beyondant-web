@@ -111,7 +111,7 @@ class IndividualController extends Controller
             return 0;
         }
     }
-    
+
 
     public function destroy($id)
     {
@@ -119,11 +119,11 @@ class IndividualController extends Controller
             return redirect('admin');
         }
         $data = User::findOrFail($id);
-        
+
         $retData = $this->deletedData($data,"Users_individual_profile","deleted",auth()->user()->id);
         if($retData)
             event(new \App\Events\LogTableEvent($retData));
-        
+
         $data->delete();
         echo "Deleted Successfully.";
     }
@@ -138,10 +138,10 @@ class IndividualController extends Controller
             for ($i = 0; $i < count($id); $i++) {
                 $data = User::findorFail($id[$i]);
                 $retData = $this->deletedData($data,"Users_individual_profile","deleted",auth()->user()->id);
-                
+
                 if($retData)
                     event(new \App\Events\LogTableEvent($retData));
-                    
+
                 $data->delete();
             }
             echo "Selected records Deleted Successfully.";
