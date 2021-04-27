@@ -46,9 +46,9 @@ class ProfileController extends Controller
             return redirect()->route('legacy', $id);
         }
 
-        if (auth()->check()) {
-            dd(1);
-        }
+//        if (auth()->check()) {
+//            dd(1);
+//        }
 
         if (!empty($content['record'])) {
             if (Auth::check()) {
