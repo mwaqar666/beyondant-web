@@ -40,7 +40,7 @@ class ProfileController extends Controller
 //        }
 
         if (auth()->check()) {
-            dd(1);
+//            dd(1);
         }
 
         $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->firstOrFail();
