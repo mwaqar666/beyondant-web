@@ -39,11 +39,9 @@ class ProfileController extends Controller
 //            return redirect()->route('pro', 805);
 //        }
 
-        $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->first();
+        $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->firstOrFail();
 
-        if (! $content['record']) {
-            dd('F');
-        }
+        dd($content['record']->is_legacy);
 
         if ($content['record']->is_legacy) {
 
