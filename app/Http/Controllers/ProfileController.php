@@ -31,13 +31,12 @@ use Illuminate\Support\ViewErrorBag;
 
 class ProfileController extends Controller
 {
-    public function index($id)
+    public function index(int $id)
     {
-//        dd($id);
         // ye mein ne patti lagai hai ek user ko 801 se 805 p redirect kara hai xD
-//        if ($id == 801) {
-//            return redirect()->route('pro', 805);
-//        }
+        if ($id === 801) {
+            return redirect()->route('pro', 805);
+        }
 
         $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->firstOrFail();
 
@@ -45,10 +44,6 @@ class ProfileController extends Controller
 
             return redirect()->route('legacy', $id);
         }
-
-//        if (auth()->check()) {
-//            dd(1);
-//        }
 
         if (!empty($content['record'])) {
             if (Auth::check()) {
@@ -58,9 +53,7 @@ class ProfileController extends Controller
                     \QRCode::text(route('pro', $id))->setOutfile($file)->png();
                 }
 
-//                dump(auth()->user()->id !== $id, gettype(auth()->user()->id), gettype($id));
-
-                if (auth()->user()->id != $id) {
+                if (auth()->user()->id !== $id) {
 
                     return redirect()->route('pro', auth()->user()->id);
                 }
