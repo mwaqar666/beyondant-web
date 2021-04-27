@@ -82,7 +82,7 @@
                 <div class="col-lg-3">
                     <div class="location">
                         <h4>Cemetery Location:</h4>
-                        <p>{{ $user->legacy->cemetery_location }}</p>
+                        <p>{{ $user->legacy->cemetery_location ?? 'Location not found' }}</p>
                     </div>
                 </div>
             </div>
