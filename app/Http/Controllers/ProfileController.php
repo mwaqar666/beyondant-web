@@ -33,16 +33,19 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
+//        dd($id);
         // ye mein ne patti lagai hai ek user ko 801 se 805 p redirect kara hai xD
 //        if ($id == 801) {
 //            return redirect()->route('pro', 805);
 //        }
 
-        $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->firstOrFail();
+        $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->first();
+
+        if (! $content['record']) {
+            dd('F');
+        }
 
         if ($content['record']->is_legacy) {
-
-            dd(1);
 
             return redirect()->route('legacy', $id);
         }
