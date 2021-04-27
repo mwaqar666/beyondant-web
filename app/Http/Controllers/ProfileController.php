@@ -41,7 +41,7 @@ class ProfileController extends Controller
 
         $content['record'] = User::whereId($id)->whereIn('role_id', [2, 5, 7])->firstOrFail();
 
-        dd($content['record']->is_legacy);
+//        dd($content['record']->is_legacy);
 
         if ($content['record']->is_legacy) {
 
