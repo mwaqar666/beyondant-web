@@ -99,11 +99,11 @@
                             <h1>LIFE <span>&amp;</span> TIME</h1>
                             <h2>{{ ucfirst($user->first_name) }} {{ ucfirst($user->last_name) }}</h2>
                             <h5>
-                                {{ $user->legacy->from }}
+                                {{ $user->legacy->from ?? 'Year not found' }}
                                 <span>
                                         <img src="{{ asset('assets/front/images/text-img.png') }}" alt="">
                                     </span>
-                                {{ $user->legacy->to }}
+                                {{ $user->legacy->to ?? 'Year not found' }}
                             </h5>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                 <div class="col-lg-12">
                     <div class="timeline">
 
-                        @foreach ($user->legacy->legacyTimeline as $legacyTimeline)
+                        @foreach ($user->legacy->legacyTimeline ?? [] as $legacyTimeline)
                             <div class="timeline-item">
                                 <div class="timeline-date">
                                     <div>{{ $legacyTimeline->year }}</div>
@@ -140,9 +140,7 @@
                 <div class="roth">
                     <h2>Legacy of {{ ucfirst($user->first_name) }} {{ ucfirst($user->last_name) }}</h2>
                     <div>
-                        <p>
-                            @if ($user->legacy->description) {!! $user->legacy->description !!} @else <i>No Legacy Description Found</i> @endif
-                        </p>
+                        <p>{!! $user->legacy->description ?? '<i>No Legacy Description Found</i>' !!}</p>
                     </div>
                 </div>
             </div>
@@ -175,7 +173,7 @@
                     <ul class="p-0">
 
                         <div id="comment-list">
-                            @foreach ($user->legacy->publicComments as $publicComment)
+                            @foreach ($user->legacy->publicComments ?? [] as $publicComment)
                                 <li>
                                     <div class="row comment-box p-1 pt-3 pr-4">
                                         <div class="col-lg-1 col-1 user-img text-center">
@@ -248,7 +246,7 @@
                     <div class="col-lg-12 mt-5 comment-main rounded">
                         <ul class="p-0">
 
-                            @foreach ($user->legacy->privateComments as $privateComment)
+                            @foreach ($user->legacy->privateComments ?? [] as $privateComment)
                                 <li>
                                     <div class="row comment-box p-1 pt-3 pr-4">
                                         <div class="col-lg-1 col-1 user-img text-center">
