@@ -58,7 +58,7 @@ class ProfileController extends Controller
                     \QRCode::text(route('pro', $id))->setOutfile($file)->png();
                 }
 
-                dump(auth()->user()->id !== $id);
+                dump(auth()->user()->id !== $id, gettype(auth()->user()->id), gettype($id));
 
                 if (auth()->user()->id !== $id) {
 
