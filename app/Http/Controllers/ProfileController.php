@@ -42,6 +42,8 @@ class ProfileController extends Controller
 
         if ($content['record']->is_legacy) {
 
+            dd(1);
+
             return redirect()->route('legacy', $id);
         }
 
